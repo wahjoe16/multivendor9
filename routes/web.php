@@ -32,7 +32,12 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::group(['prefix'=>'/admin'], function () {
-    Route::get('/login', [AdminController::class, 'login'])->name('login.admin');
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.admin');
+    Route::match(['get', 'post'], '/login', [AdminController::class, 'login'])->name('login.admin');
+
+    Route::group(['middleware'=>['admin']], function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.admin');
+        Route::get('/logout', [AdminController::class, 'logout'])->name('logout.admin');
+    });
+    
 });
 
