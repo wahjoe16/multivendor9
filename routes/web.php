@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +39,13 @@ Route::group(['prefix'=>'/admin'], function () {
     Route::group(['middleware'=>['admin']], function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.admin');
         Route::get('/logout', [AdminController::class, 'logout'])->name('logout.admin');
+        Route::get('/settings', function () {
+            $dataAdmin = Admin::where('id', Auth::guard('admin')->user()->id)->first();
+            // dd($dataAdmin);
+            return view('admin.settings', compact('dataAdmin'));
+        })->name('settings.admin');
+        Route::post('/update-admin-password', [AdminController::class, 'updateAdminPassword'])->name('update.admin.password');
+        Route::post('/update-admin-profile', [AdminController::class, 'updateAdminProfile'])->name('update.admin.profile');
     });
     
 });

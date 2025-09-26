@@ -206,7 +206,12 @@
             <!-- partial:partials/_sidebar.html -->
             @include('admin.layout.sidebar')
             <!-- partial -->
-            @yield('content')
+            <!-- main-panel starts -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @yield('content')
+                </div>
+            </div>
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
