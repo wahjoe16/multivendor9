@@ -3,6 +3,9 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
+use App\Models\Vendor;
+use App\Models\VendorsBankDetail;
+use App\Models\VendorsBusinessDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +42,7 @@ Route::group(['prefix'=>'/admin'], function () {
     Route::group(['middleware'=>['admin']], function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.admin');
         Route::get('/logout', [AdminController::class, 'logout'])->name('logout.admin');
+
         Route::get('/settings', function () {
             $dataAdmin = Admin::where('id', Auth::guard('admin')->user()->id)->first();
             // dd($dataAdmin);
@@ -46,6 +50,20 @@ Route::group(['prefix'=>'/admin'], function () {
         })->name('settings.admin');
         Route::post('/update-admin-password', [AdminController::class, 'updateAdminPassword'])->name('update.admin.password');
         Route::post('/update-admin-profile', [AdminController::class, 'updateAdminProfile'])->name('update.admin.profile');
+        Route::get('admins/{type?}', [AdminController::class, 'viewAdmins'])->name('view.admins');
+
+        Route::get('/personal-business-bank-settings', function () {
+            $dataAdmin = Admin::where('id', Auth::guard('admin')->user()->id)->first();
+            $dataVendor = Vendor::where('id', Auth::guard('admin')->user()->vendor_id)->first();
+            $dataVendorBusiness = VendorsBusinessDetail::where('id', Auth::guard('admin')->user()->vendor_id)->first();
+            $dataVendorBank = VendorsBankDetail::where('id', Auth::guard('admin')->user()->vendor_id)->first();
+            // dd($dataVendor);
+            return view('admin.business_bank_details', compact('dataAdmin', 'dataVendor', 'dataVendorBusiness', 'dataVendorBank'));
+        })->name('business.bank.details.vendor');
+        Route::post('/update-vendor-profile', [AdminController::class, 'updateVendorProfile'])->name('update.vendor.profile');
+        Route::post('/update-vendor-business', [AdminController::class, 'updateVendorBusiness'])->name('update.vendor.business');
+        Route::post('/update-vendor-bank', [AdminController::class, 'updateVendorBank'])->name('update.vendor.bank');
+        Route::get('/show-vendor/{id}', [AdminController::class, 'showVendor'])->name('show.vendor');
     });
     
 });

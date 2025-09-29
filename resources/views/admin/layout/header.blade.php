@@ -75,7 +75,11 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
             <a href="{{ route('settings.admin') }}" class="dropdown-item">
                 <i class="ti-settings text-primary"></i>
-                Settings
+                Personal Settings
+            </a>
+            <a href="{{ route('business.bank.details.vendor') }}" class="dropdown-item">
+                <i class="ti-settings text-primary"></i>
+                Business & Bank Settings
             </a>
             <a href="{{ route('logout.admin') }}" class="dropdown-item">
                 <i class="ti-power-off text-primary"></i>

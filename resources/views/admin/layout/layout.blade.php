@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{ asset('/admin/vendors/ti-icons/css/themify-icons.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/admin/js/select.dataTables.min.css') }}">
     <!-- End plugin css for this page -->
+    {{-- MDI icons --}}
+    <link rel="stylesheet" href="{{ asset('/admin/vendors/mdi/css/materialdesignicons.min.css') }}">
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('/admin/css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
