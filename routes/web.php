@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
+use App\Models\Country;
 use App\Models\Vendor;
 use App\Models\VendorsBankDetail;
 use App\Models\VendorsBusinessDetail;
@@ -57,8 +58,9 @@ Route::group(['prefix'=>'/admin'], function () {
             $dataVendor = Vendor::where('id', Auth::guard('admin')->user()->vendor_id)->first();
             $dataVendorBusiness = VendorsBusinessDetail::where('id', Auth::guard('admin')->user()->vendor_id)->first();
             $dataVendorBank = VendorsBankDetail::where('id', Auth::guard('admin')->user()->vendor_id)->first();
+            $countries = Country::where('status', 1)->get();
             // dd($dataVendor);
-            return view('admin.business_bank_details', compact('dataAdmin', 'dataVendor', 'dataVendorBusiness', 'dataVendorBank'));
+            return view('admin.business_bank_details', compact('dataAdmin', 'dataVendor', 'dataVendorBusiness', 'dataVendorBank', 'countries'));
         })->name('business.bank.details.vendor');
         Route::post('/update-vendor-profile', [AdminController::class, 'updateVendorProfile'])->name('update.vendor.profile');
         Route::post('/update-vendor-business', [AdminController::class, 'updateVendorBusiness'])->name('update.vendor.business');

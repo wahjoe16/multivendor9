@@ -35,7 +35,12 @@
                     </div>
                     <div class="form-group">
                         <label for="vendor_country">Country</label>
-                        <input type="text" class="form-control" id="vendor_country" name="vendor_country" placeholder="Country" value="{{ $dataVendor['country'] }}">
+                        <select name="vendor_country" id="vendor_country" class="form-control">
+                            <option value="">Select Country</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->country_name }}" @if ($dataVendor['country'] == $country->country_name) selected @endif>{{ $country->country_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="vendor_pincode">Pincode</label>
@@ -85,7 +90,12 @@
                     </div>
                     <div class="form-group">
                         <label for="shop_country">Shop Country</label>
-                        <input type="text" class="form-control" id="shop_country" name="shop_country" placeholder="Shop Country" value="{{ $dataVendorBusiness['shop_country'] }}">
+                        <select name="shop_country" id="shop_country" class="form-control">
+                            <option value="">Select Country</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->country_name }}" @if ($country['country_name'] == $dataVendorBusiness['shop_country']) selected @endif>{{ $country->country_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="shop_pincode">Shop Pincode</label>
