@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
 use App\Models\Country;
@@ -68,6 +69,19 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::get('/show-vendor/{id}', [AdminController::class, 'showVendor'])->name('show.vendor');
 
         Route::post('/update-admin-status', [AdminController::class, 'updateAdminStatus'])->name('update.admin.status');
+
+        // Sections Management
+        Route::get('/sections', [SectionController::class, 'viewSections'])->name('sections.view');
+        Route::post('/update-section-status', [SectionController::class, 'updateSectionStatus'])->name('update.section.status');
+        Route::match(['get', 'post'], '/create-edit-section/{id?}', [SectionController::class, 'createEditSection'])->name('create.edit.section');
+        Route::get('/delete/{id}/section', [SectionController::class, 'deleteSection'])->name('delete.section');
+
+        // Categories Management
+        Route::get('/categories', [AdminController::class, 'viewCategories'])->name('categories.view');
+
+        // Products Management
+        Route::get('/products', [AdminController::class, 'viewProducts'])->name('products.view');
+
     });
     
 });

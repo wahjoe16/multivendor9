@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="{{ asset('/admin/css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('/admin/images/favicon.png') }}" />
+
+    {{-- Sweet alert 2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.23.0/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    @stack('top_css')
 </head>
 <body>
     <div class="container-scroller">
@@ -239,6 +244,10 @@
     <script src="{{ asset('/admin/js/dashboard.js') }}"></script>
     <script src="{{ asset('/admin/js/Chart.roundedBarCharts.js') }}"></script>
     <!-- End custom js for this page-->
+
+    {{-- Sweet alert 2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.23.0/dist/sweetalert2.all.min.js"></script>
+
     @stack('bottom-scripts')
 </body>
 
