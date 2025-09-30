@@ -40,19 +40,35 @@
                     <tbody>
                         <tr>
                             <td class="text-muted">Account Holder Name</td>
-                            <td>{{ $vendorDetails['vendor_bank']['account_holder_name'] }}</td>
+                            @if (empty($vendorDetails['vendor_bank']['account_holder_name']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_bank']['account_holder_name'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Bank Name</td>
-                            <td>{{ $vendorDetails['vendor_bank']['bank_name'] }}</td>
+                            @if (empty($vendorDetails['vendor_bank']['bank_name']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_bank']['bank_name'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Account Number</td>
-                            <td>{{ $vendorDetails['vendor_bank']['account_number'] }}</td>
+                            @if (empty($vendorDetails['vendor_bank']['account_number']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_bank']['account_number'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Bank IFSC Code</td>
-                            <td>{{ $vendorDetails['vendor_bank']['bank_ifsc_code'] }}</td>
+                            @if (empty($vendorDetails['vendor_bank']['bank_ifsc_code']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_bank']['bank_ifsc_code'] }}</td>
+                            @endif
                         </tr>
                     </tbody>
                 </table>
@@ -72,55 +88,107 @@
                     <tbody>
                         <tr>
                             <td class="text-muted">Shop Name</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_name'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_name']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_name'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop Address</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_address'] }}</td>    
+                            @if (empty($vendorDetails['vendor_business']['shop_address']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_address'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop City</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_city'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_city']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_city'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop State</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_state'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_state']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_state'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop Country</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_country'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_country']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_country'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop Pincode</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_pincode'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_pincode']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_pincode'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop Mobile</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_mobile'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_mobile']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_mobile'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop Email</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_email'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_email']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_email'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Shop Website</td>
-                            <td>{{ $vendorDetails['vendor_business']['shop_website'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['shop_website']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['shop_website'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Address Proof</td>
-                            <td>{{ $vendorDetails['vendor_business']['address_proof'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['address_proof']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['address_proof'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Business License Number</td>
-                            <td>{{ $vendorDetails['vendor_business']['business_license_number'] }}</td> 
+                            @if (empty($vendorDetails['vendor_business']['business_license_number']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['business_license_number'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">GST Number</td>
-                            <td>{{ $vendorDetails['vendor_business']['gst_number'] }}</td>  
+                            @if (empty($vendorDetails['vendor_business']['gst_number']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['gst_number'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">PAN Number</td>
-                            <td>{{ $vendorDetails['vendor_business']['pan_number'] }}</td>
+                            @if (empty($vendorDetails['vendor_business']['pan_number']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_business']['pan_number'] }}</td>
+                            @endif
                         </tr>
                     </tbody>
                 </table>
@@ -137,35 +205,67 @@
                     <tbody>
                         <tr>
                             <td class="text-muted">Vendor Name</td>
-                            <td>{{ $vendorDetails['vendor_personal']['name'] }}</td>
+                            @if (empty($vendorDetails['vendor_personal']['name']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['name'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Vendor Address</td>
-                            <td>{{ $vendorDetails['vendor_personal']['address'] }}</td>
+                            @if (empty($vendorDetails['vendor_personal']['address']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['address'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Vendor City</td>
-                            <td>{{ $vendorDetails['vendor_personal']['city'] }}</td>
+                            @if (empty($vendorDetails['vendor_personal']['city']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['city'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Vendor State</td>
-                            <td>{{ $vendorDetails['vendor_personal']['state'] }}</td>   
+                            @if (empty($vendorDetails['vendor_personal']['state']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['state'] }}</td>
+                            @endif  
                         </tr>
                         <tr>
                             <td class="text-muted">Vendor Country</td>
-                            <td>{{ $vendorDetails['vendor_personal']['country'] }}</td>
+                            @if (empty($vendorDetails['vendor_personal']['country']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['country'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Vendor Pincode</td>
-                            <td>{{ $vendorDetails['vendor_personal']['pincode'] }}</td>
+                            @if (empty($vendorDetails['vendor_personal']['pincode']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['pincode'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Vendor Mobile</td>
-                            <td>{{ $vendorDetails['vendor_personal']['mobile'] }}</td>
+                            @if (empty($vendorDetails['vendor_personal']['mobile']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['mobile'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <td class="text-muted">Vendor Email</td>
-                            <td>{{ $vendorDetails['vendor_personal']['email'] }}</td>   
+                            @if (empty($vendorDetails['vendor_personal']['email']))
+                                <td>--</td>
+                            @else
+                                <td>{{ $vendorDetails['vendor_personal']['email'] }}</td>
+                            @endif  
                         </tr>
                     </tbody>
                 </table>
@@ -173,7 +273,11 @@
                     <h4 class="card-title">
                         Vendor Business Image
                     </h4>
+                    @if (empty($vendorDetails['vendor_business']['address_proof_image']))
+                        <h5 class="text-danger">No Image Found</h5>
+                    @else
                     <img src="{{ asset('/vendor/photo/' . $vendorDetails['vendor_business']['address_proof_image']) }}" alt="" width="400">
+                    @endif
                 </div>
                 
             </div>

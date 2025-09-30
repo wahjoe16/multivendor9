@@ -64,6 +64,8 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::post('/update-vendor-business', [AdminController::class, 'updateVendorBusiness'])->name('update.vendor.business');
         Route::post('/update-vendor-bank', [AdminController::class, 'updateVendorBank'])->name('update.vendor.bank');
         Route::get('/show-vendor/{id}', [AdminController::class, 'showVendor'])->name('show.vendor');
+
+        Route::post('/update-admin-status', [AdminController::class, 'updateAdminStatus'])->name('update.admin.status');
     });
     
 });

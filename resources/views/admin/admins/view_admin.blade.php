@@ -38,12 +38,12 @@
                                 <td> 
                                     @if ($admin->status == 1)
                                         <a href="javascript:void(0)" class="updateAdminStatus" id="admin-{{ $admin->id }}" admin_id="{{ $admin->id }}">
-                                            <i class="mdi mdi-bookmark-check" style="font-size: 25px;" title="Active"></i>
+                                            <i class="mdi mdi-bookmark-check" style="font-size: 25px;" title="Active" status="Active"></i>
                                         </a>
                                         {{-- <span style="color: green">Active</span> --}}
                                     @else
                                         <a href="javascript:void(0)" class="updateAdminStatus" id="admin-{{ $admin->id }}" admin_id="{{ $admin->id }}">
-                                            <i class="mdi mdi-bookmark-outline" style="font-size: 25px;" title="Inactive"></i>
+                                            <i class="mdi mdi-bookmark-outline" style="font-size: 25px;" title="Inactive" status="Inactive"></i>
                                         </a>
                                         {{-- <span style="color: red">Inactive</span> --}}
                                     @endif
@@ -59,5 +59,36 @@
                             @endforeach
                         </tbody>
                     </table>
-
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('bottom-scripts')
+   <script>
+        $(document).ready(function(){
+            $(document).on("click", ".updateAdminStatus", function(){
+                var status = $(this).children("i").attr("status");
+                var admin_id = $(this).attr("admin_id");
+                // alert(admin_id);
+                $.ajax({
+                    type: 'post',
+                    url: `{{ route('update.admin.status') }}`,
+                    data: {status: status, admin_id: admin_id, _token: '{{ csrf_token() }}'},
+                    success: function(resp){
+                        // alert(resp);
+                        if (resp['status'] == 0) {
+                            $("#admin-"+admin_id).html("<i class='mdi mdi-bookmark-outline' style='font-size: 25px;' title='Inactive' status='Inactive'></i>");
+                        } else if (resp['status'] == 1) {
+                            $("#admin-"+admin_id).html("<i class='mdi mdi-bookmark-check' style='font-size: 25px;' title='Active' status='Active'></i>");
+                        }
+                    }, error: function(){
+                        alert("Error");
+                    }
+                });
+            });
+        });
+    </script> 
+@endpush
