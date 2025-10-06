@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
@@ -77,7 +78,11 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::get('/delete/{id}/section', [SectionController::class, 'deleteSection'])->name('delete.section');
 
         // Categories Management
-        Route::get('/categories', [AdminController::class, 'viewCategories'])->name('categories.view');
+        Route::get('/categories', [CategoryController::class, 'viewCategories'])->name('categories.view');
+        Route::post('/update-category-status', [CategoryController::class, 'updateCategoryStatus'])->name('update.category.status');
+        Route::match(['get', 'post'], '/create-edit-category/{id?}', [CategoryController::class, 'createEditCategory'])->name('create.edit.category');
+        Route::get('/append-categories-level', [CategoryController::class, 'appendCategoriesLevel'])->name('append.categories.level');
+        Route::get('/delete/{id}/category', [CategoryController::class, 'deleteCategory'])->name('delete.category');
 
         // Products Management
         Route::get('/products', [AdminController::class, 'viewProducts'])->name('products.view');

@@ -9,39 +9,45 @@
 
 @include('admin.alert')
 <div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
+    <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Sections</h4>
-                <a href="{{ route('create.edit.section') }}" class="btn btn-sm btn-success">Create New Section</a>
+                <h4 class="card-title">Categories</h4>
+                <a href="{{ route('create.edit.category') }}" class="btn btn-sm btn-success">Create New Category</a>
                 <div class="table-responsive pt-3">
-                    <table id="sections" class="table table-striped">
+                    <table id="categories" class="table table-striped">
                         <thead>
                             <tr>
                                 <th> Name </th>
+                                <th> Section </th>
+                                <th> Parent Category </th>
+                                <th> URL </th>
                                 <th> Status </th>
                                 <th> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $section)
+                            @foreach ($data as $category)
                             <tr>
-                                <td> {{ $section->name }} </td>
+                                <td> {{ $category->category_name }} </td>
+                                <td> {{ $category->section->name }} </td>
+                                <td> {{ !empty($category->parentcategory->category_name) ? $category->parentcategory->category_name : 'Main Category' }} </td>
+                                <td> {{ $category->url }} </td>
                                 <td> 
-                                    @if($section->status==1)
-                                        <a class="updateSectionStatus" id="section-{{ $section->id }}" section_id="{{ $section->id }}" href="javascript:void(0)">
+                                    @if($category->status==1)
+                                        <a class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}" href="javascript:void(0)">
                                             <i class="mdi mdi-bookmark-check" style="font-size: 25px;" title="Active" status="Active"></i>
                                         </a>
                                     @else
-                                        <a class="updateSectionStatus" id="section-{{ $section->id }}" section_id="{{ $section->id }}" href="javascript:void(0)">
+                                        <a class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}" href="javascript:void(0)">
                                             <i class="mdi mdi-bookmark-outline" style="font-size: 25px;" title="Inactive" status="Inactive"></i>
                                         </a>
                                     @endif
                                 </td>
                                 <td> 
-                                    <a href="{{ route('create.edit.section', $section['id']) }}"><i class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
+                                    <a href="{{ route('create.edit.category', $category['id']) }}"><i class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
                                     &nbsp;&nbsp;
-                                    <a href="javascript:void(0)" class="confirmDelete" module="section" moduleid="{{ $section->id }}"><i class="mdi mdi-file-excel-box" style="font-size: 25px;"></i></a>
+                                    <a href="javascript:void(0)" class="confirmDelete" module="category" moduleid="{{ $category->id }}" module_name="{{ $category->category_name }}"><i class="mdi mdi-file-excel-box" style="font-size: 25px;"></i></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -52,7 +58,6 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @push('bottom-scripts')
@@ -63,27 +68,27 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#sections').DataTable();
+            $('#categories').DataTable();
         });
     </script>
 
     {{-- UPDATE SECTION STATUS --}}
     <script>
-        $(document).on('click', '.updateSectionStatus', function(){
+        $(document).on('click', '.updateCategoryStatus', function(){
             var status = $(this).children("i").attr("status");
-            var section_id = $(this).attr("section_id");
+            var category_id = $(this).attr("category_id");
             // alert(status);
-            // alert(section_id);
+            // alert(category_id);
             $.ajax({
                 type: 'post',
-                url: `{{ route('update.section.status') }}`,
-                data: {status:status, section_id:section_id, _token:'{{ csrf_token() }}'},
+                url: `{{ route('update.category.status') }}`,
+                data: {status:status, category_id:category_id, _token:'{{ csrf_token() }}'},
                 success:function(resp){
                     // alert(resp['status']);
                     if(resp['status']==0){
-                        $("#section-"+section_id).html("<i class='mdi mdi-bookmark-outline' style='font-size: 25px;' title='Inactive' status='Inactive'></i>");
+                        $("#category-"+category_id).html("<i class='mdi mdi-bookmark-outline' style='font-size: 25px;' title='Inactive' status='Inactive'></i>");
                     }else if(resp['status']==1){
-                        $("#section-"+section_id).html("<i class='mdi mdi-bookmark-check' style='font-size: 25px;' title='Active' status='Active'></i>");
+                        $("#category-"+category_id).html("<i class='mdi mdi-bookmark-check' style='font-size: 25px;' title='Active' status='Active'></i>");
                     }
                 },error:function(){
                     alert("Error");
