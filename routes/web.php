@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\ProfileController;
@@ -83,6 +84,12 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::match(['get', 'post'], '/create-edit-category/{id?}', [CategoryController::class, 'createEditCategory'])->name('create.edit.category');
         Route::get('/append-categories-level', [CategoryController::class, 'appendCategoriesLevel'])->name('append.categories.level');
         Route::get('/delete/{id}/category', [CategoryController::class, 'deleteCategory'])->name('delete.category');
+
+        // Brands Management
+        Route::get('/brands', [BrandController::class, 'viewBrands'])->name('brands.view');
+        Route::match(['get', 'post'], '/create-edit-brand/{id?}', [BrandController::class, 'createEditBrand'])->name('create.edit.brand');
+        Route::post('/update-brand-status', [BrandController::class, 'updateBrandStatus'])->name('update.brand.status');
+        Route::get('/delete/{id}/brand', [BrandController::class, 'deleteBrand'])->name('delete.brand');
 
         // Products Management
         Route::get('/products', [AdminController::class, 'viewProducts'])->name('products.view');

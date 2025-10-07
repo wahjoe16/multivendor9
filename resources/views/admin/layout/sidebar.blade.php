@@ -32,6 +32,7 @@
             <li class="nav-item"> <a class="nav-link" href="{{ route('sections.view') }}">Sections</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('categories.view') }}">Categories</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('products.view') }}">Products</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('brands.view') }}">Brands</a></li>
         </ul>
         </div>
     </li>
