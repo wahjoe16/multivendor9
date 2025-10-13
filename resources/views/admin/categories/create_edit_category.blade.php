@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category_discount" class="col-form-label">Category Discount</label>
-                        <input type="numeric" class="form-control" id="category_discount" name="category_discount" placeholder="Enter Category Discount" @if(!empty($category['category_discount'])) value="{{ $category['category_discount'] }}" @else value="{{ old('category_discount') }}" @endif>
+                        <input type="number" class="form-control" id="category_discount" name="category_discount" placeholder="Enter Category Discount" @if(!empty($category['category_discount'])) value="{{ $category['category_discount'] }}" @else value="{{ old('category_discount') }}" @endif>
                     </div>
                     <div class="form-group">
                         <label for="description" class="col-form-label">Category Description</label>

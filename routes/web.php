@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
@@ -92,7 +93,12 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::get('/delete/{id}/brand', [BrandController::class, 'deleteBrand'])->name('delete.brand');
 
         // Products Management
-        Route::get('/products', [AdminController::class, 'viewProducts'])->name('products.view');
+        Route::get('/products', [ProductController::class, 'viewProducts'])->name('products.view');
+        Route::get('/show-product/{id}', [ProductController::class, 'showProduct'])->name('product.show');
+        Route::get('/show-vendor-product/{id}', [ProductController::class, 'showVendorProduct'])->name('vendor.product.show');
+        Route::match(['get', 'post'], '/create-edit-product/{id?}', [ProductController::class, 'createEditProduct'])->name('create.edit.product');
+        Route::post('/update-product-status', [ProductController::class, 'updateProductStatus'])->name('update.product.status');
+        Route::get('/delete/{id}/product', [ProductController::class, 'deleteProduct'])->name('delete.product');
 
     });
     
