@@ -7,6 +7,8 @@ use App\Models\Admin;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductAttribute;
+use App\Models\ProductImage;
 use App\Models\Section;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
@@ -132,6 +134,85 @@ class ProductController extends Controller
         return view('admin.products.create_edit_product', compact('title', 'product', 'categories', 'brands'));
     }
 
+    public function addAttributesProduct(Request $request, $id)
+    {
+        $product = Product::select(
+            'id', 'product_name', 'product_code', 'product_color',
+            'product_price', 'product_image'
+        )->with('attributes')->find($id);
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+
+            foreach ($data['sku'] as $key => $value) {
+                if (!empty($value)) {
+                    // SKU duplicate check
+                    $skuCheck = ProductAttribute::where('sku', $value)->count();
+                    if ($skuCheck > 0) {
+                        return redirect()->back()->with('error_message', 'SKU is already exists');
+                    }
+
+                    // size duplicate check
+                    $sizeCheck = ProductAttribute::where([
+                        'product_id' => $id,
+                        'size' => $data['size'][$key]
+                    ])->count();
+                    if ($sizeCheck > 0) {
+                        return redirect()->back()->with('error_message', 'Size is already exixts, please enter another size!');
+                    }
+
+                    $attribute = new ProductAttribute();
+                    $attribute->product_id = $id;
+                    $attribute->size = $data['size'][$key];
+                    $attribute->price = $data['price'][$key];
+                    $attribute->stock = $data['stock'][$key];
+                    $attribute->sku = $value;
+                    $attribute->status = 1;
+                    $attribute->save();
+                }
+            }
+
+            return redirect()->route('products.view')->with('success_message', 'Product attributes successfull added!');
+        }
+
+        return view('admin.products.add_attributes_product', compact('product'));
+    }
+
+    public function editAttributesProduct(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+
+            foreach ($data['attributeId'] as $key => $value) {
+                if (!empty($value)) {
+                    ProductAttribute::where([
+                        'id' => $data['attributeId'][$key]
+                    ])->update([
+                        'stock' => $data['stock'][$key],
+                        'price' => $data['price'][$key]
+                    ]);
+                }
+            }
+
+            return redirect()->back()->with('success_message', 'Product attribute successfullu updated');
+        }
+    }
+
+    public function updateAttributeStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            if ($data['status'] == 'Active') {
+                $status = 0;
+            } else {
+                $status = 1;
+            }
+        }
+
+        ProductAttribute::where('id', $data['attribute_id'])->update(['status' => $status]);
+        return response()->json(['status' => $status, 'products_id' => $data['attribute_id']]);
+    }
+
     public function updateProductStatus(Request $request)
     {
         if ($request->ajax()) {
@@ -154,8 +235,9 @@ class ProductController extends Controller
     public function showProduct($id)
     {
         $data = Product::with(['section', 'category', 'brand', 'admin', 'vendor'])->where('id', $id)->first();
+        $productImage = ProductImage::where('product_id', $id)->get();
         // dd($data);
-        return view('admin.products.show_product', compact('data'));
+        return view('admin.products.show_product', compact('data', 'productImage'));
     }
 
     public function showVendorProduct($id)
@@ -163,6 +245,40 @@ class ProductController extends Controller
         $dataVendor = Vendor::where('id', $id)->first();
         
         return view('admin.vendors.show_vendor', compact('dataVendor'));
+    }
+
+    public function addImagesProduct(Request $request, $id)
+    {
+        $product = Product::select(
+            'id', 'product_name', 'product_code', 'product_color',
+            'product_price', 'product_image'
+        )->with('images')->find($id);
+        // dd($product);
+
+        $productImage = ProductImage::where('product_id', $id)->get();
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            if ($request->hasFile('image')) {
+                $image_tmp = $request->file('image');
+                // echo "<pre>"; print_r($image_tmp); die;
+
+                foreach ($image_tmp as $key => $value) {
+                    $imageName = 'product_' . date('Y-m-dHis') . '_' . $value->getClientOriginalName();
+                    $imagePath = public_path('/images/product_images/multiple');
+                    $value->move($imagePath, $imageName);
+                    $imageProduct = new ProductImage();
+                    $imageProduct->image = $imageName;
+                    $imageProduct->product_id = $id;
+                    $imageProduct->status = 1;
+                    $imageProduct->save();
+                }
+            }
+
+            return redirect()->back()->with('success_message', 'Multiple product images successfully added');
+        }
+
+        return view('admin.products.add_images_product', compact('product', 'productImage'));
     }
 
     public function deleteProduct($id)

@@ -33,4 +33,14 @@ class Product extends Model
     {
         return $this->belongsTo(Admin::class, 'admin_id')->select('id', 'name');
     }
+
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }

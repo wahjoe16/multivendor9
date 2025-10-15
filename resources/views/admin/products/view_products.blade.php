@@ -16,7 +16,6 @@
                                 <th>Product Name</th>
                                 <th>Product Code</th>
                                 <th>Category</th>
-                                <th>Price</th>
                                 <th>Image</th>
                                 <th>Added By</th>
                                 <th>Status</th>
@@ -29,7 +28,6 @@
                                 <td>{{ $product->product_name }}</td>
                                 <td>{{ $product->product_code }}</td>
                                 <td>{{ $product->category->category_name }}</td>
-                                <td>Rp. {{ $product->product_price }}</td>
                                 <td>
                                     @if (!empty($product->product_image))
                                         <img src="{{ asset('/images/product_images/' . $product->product_image) }}" alt="{{ $product->product_name }}" style="width: 50px;">
@@ -57,6 +55,8 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('product.show', ['id' => $product->id]) }}" title="Show Product"><i class="mdi mdi-eye" style="font-size: 25px;"></i></a>
+                                    <a href="{{ route('attributesProduct.add', ['id' => $product->id]) }}" title="Add Attributes"><i class="mdi mdi-plus-box" style="font-size: 25px;"></i></a>
+                                    <a href="{{ route('imagesProduct.add', ['id' => $product->id]) }}" title="Add Images"><i class="mdi mdi-library-plus" style="font-size: 25px;"></i></a>
                                     <a href="{{ route('create.edit.product', ['id' => $product->id]) }}" title="Edit Product"><i class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
                                     <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product->id }}" title="Delete Product"><i class="mdi mdi-file-excel-box" style="font-size: 25px;"></i></a>
                                 </td>
@@ -68,7 +68,6 @@
                                 <th>Product Name</th>
                                 <th>Product Code</th>
                                 <th>Category</th>
-                                <th>Price</th>
                                 <th>Image</th>
                                 <th>Added By</th>
                                 <th>Status</th>

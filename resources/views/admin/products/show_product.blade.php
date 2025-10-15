@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h4 class="card-title">Details Product</h4>
+<h4 class="card-title">Details Product&nbsp;{{ $data['product_name'] }}</h4>
 <div class="row mb-4">
     <div class="col-md-5">
         <div class="card">
@@ -100,7 +100,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row mb-5">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -109,6 +109,21 @@
             </div>
         </div>
     </div>
+</div>
+
+<h4 class="card-title">{{ $data['product_name'] }}&nbsp;Images</h4>
+<div class="row mb-4">
+    @foreach ($productImage as $data => $value)
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <img src="{{ asset('/images/product_images/multiple/' . $value->image) }}" alt="" style="width: 260px; height: 260px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 </div>
 
 @endsection

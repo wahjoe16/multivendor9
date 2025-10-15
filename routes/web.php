@@ -98,6 +98,10 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::get('/show-vendor-product/{id}', [ProductController::class, 'showVendorProduct'])->name('vendor.product.show');
         Route::match(['get', 'post'], '/create-edit-product/{id?}', [ProductController::class, 'createEditProduct'])->name('create.edit.product');
         Route::post('/update-product-status', [ProductController::class, 'updateProductStatus'])->name('update.product.status');
+        Route::match(['get', 'post'], '/add-attributes-product/{id}', [ProductController::class, 'addAttributesProduct'])->name('attributesProduct.add');
+        Route::match(['get', 'post'], '/edit-attributes-product/{id}', [ProductController::class, 'editAttributesProduct'])->name('attributesProduct.edit');
+        Route::match(['get', 'post'], '/add-images-product/{id}', [ProductController::class, 'addImagesProduct'])->name('imagesProduct.add');
+        Route::post('/update-attribute-status', [ProductController::class, 'updateAttributeStatus'])->name('updateAttributeStatus');
         Route::get('/delete/{id}/product', [ProductController::class, 'deleteProduct'])->name('delete.product');
 
     });
