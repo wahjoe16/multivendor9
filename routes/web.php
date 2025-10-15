@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
 use App\Models\Country;
@@ -25,9 +26,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [IndexController::class, 'index'])->name('front.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
