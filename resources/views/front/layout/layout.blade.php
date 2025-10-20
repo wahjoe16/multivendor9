@@ -3,39 +3,38 @@
 
 <head>
     <meta charset="utf-8">
-    <title>EShopper - Bootstrap Shop Template</title>
+    <title>MultiShop - Online Shop Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="{{ asset('/front/img/favicon.ico') }}" rel="icon">
+    <link href="{{ url('/front/img/favicon.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">  
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{ asset('/front/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet') }}">
+    <link href="{{ url('/front/lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ url('/front/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('/front/css/style.css') }}" rel="stylesheet">
+    <link href="{{ url('/front/css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
-
+    
     @include('front.layout.header')
 
 
     @yield('content')
 
 
-    <!-- Footer Start -->
     @include('front.layout.footer')
-    <!-- Footer End -->
 
 
     <!-- Back to Top -->
@@ -43,17 +42,18 @@
 
 
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('/front/lib/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('/front/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    
+    <script src="{{ url('/front/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url('/front/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
     <!-- Contact Javascript File -->
-    <script src="{{ asset('/front/mail/jqBootstrapValidation.min.js') }}"></script>
-    <script src="{{ asset('/front/mail/contact.js') }}"></script>
+    <script src="{{ url('/front/mail/jqBootstrapValidation.min.js') }}"></script>
+    <script src="{{ url('/front/mail/contact.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('/front/js/main.js') }}"></script>
+    <script src="{{ url('/front/js/main.js') }}"></script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -107,6 +108,12 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::post('/update-attribute-status', [ProductController::class, 'updateAttributeStatus'])->name('updateAttributeStatus');
         Route::get('/delete/{id}/product', [ProductController::class, 'deleteProduct'])->name('delete.product');
 
+        // Banner Management
+        Route::get('/banners', [BannerController::class, 'viewBanners'])->name('banners.view');
+        Route::match(['get', 'post'], '/create-edit-banner/{id?}', [BannerController::class, 'createEditBanner'])->name('create.edit.banner');
+        Route::get('/show-banner/{id}', [BannerController::class, 'showBanner'])->name('banner.show');
+        Route::get('/delete/{id}/banner', [BannerController::class, 'deleteBanner'])->name('delete.banner');
+        Route::post('/update-banner-status', [BannerController::class, 'updateBannerStatus'])->name('update.banner.status');
     });
     
 });
