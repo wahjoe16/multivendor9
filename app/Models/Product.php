@@ -43,4 +43,43 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    public static function getDiscountPrice($product_id)
+    {
+        $productDetails = Product::select('product_price', 'product_discount', 'category_id')->where('id', $product_id)->first();
+        $productDetails = json_decode(json_encode($productDetails), true);
+
+        $categoryDetails = Category::select('category_discount')->where('id', $productDetails['category_id'])->first();
+        $categoryDetails = json_decode(json_encode($categoryDetails), true);
+
+        if ($productDetails['product_discount'] > 0) {
+
+            $discountedPrice = $productDetails['product_price'] - ($productDetails['product_price'] * $productDetails['product_discount'] / 100);
+        
+        } elseif ($categoryDetails['category_discount'] > 0) {
+            
+            $discountedPrice = $productDetails['product_price'] - ($productDetails['product_price'] * $categoryDetails['category_discount'] / 100);
+
+        } else {
+
+            $discountedPrice = 0;
+            
+        }
+
+        return $discountedPrice;
+    }
+
+    // public function getCategories()
+    // {
+    //     return $this->belongsTo(Category::class, 'id', 'category_id')->where([
+    //         'parent_id' => 0,
+    //         'status' => 1
+    //     ])->with('subcategories');
+    // }
+    
+    // public static function getQtyProduct($category_id)
+    // {
+    //     $qtyProduct = Product::with('getCategories')->where(['category_id' => $category_id, 'status' => 1])->count();
+    //     return $qtyProduct;
+    // }
 }

@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('product_name');
             $table->string('product_code')->unique();
             $table->string('product_color');
-            $table->string('product_price');
-            $table->string('product_discount')->nullable();
-            $table->string('product_weight')->nullable();
+            $table->float('product_price');
+            $table->float('product_discount')->nullable();
+            $table->integer('product_weight')->nullable();
             $table->string('product_video')->nullable();
             $table->string('product_image')->nullable();
             $table->text('description')->nullable();

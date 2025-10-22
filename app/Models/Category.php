@@ -23,4 +23,15 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id')->where('status', 1);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id');
+    }
+
+    // public static function getCategoryProductsCount($category_id)
+    // {
+    //     $qty = Category::with('products')->where(['parent_id' => 0, 'category_id' => $category_id])->count();
+    //     return $qty . ' Products';
+    // }
 }

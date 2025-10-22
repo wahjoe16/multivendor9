@@ -108,8 +108,18 @@ class ProductController extends Controller
             $product->product_code = $data['product_code'];
             $product->product_price = $data['product_price'];
             $product->product_color = $data['product_color'];
+
+            if (empty($data['product_discount'])) {
+                $data['product_discount'] = 0;
+
+            }
             $product->product_discount = $data['product_discount'];
+
+            if (empty($data['product_weight'])) {
+                $data['product_weight'] = 0;
+            }
             $product->product_weight = $data['product_weight'];
+            
             $product->description = $data['description'];
             $product->meta_title = $data['meta_title'];
             $product->meta_keywords = $data['meta_keywords'];
