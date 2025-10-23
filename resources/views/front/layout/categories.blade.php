@@ -19,7 +19,7 @@
                                 <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ $section['name'] }} <i class="fa fa-angle-right float-right mt-1"></i></a>
                                 <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
                                     @foreach ($section['categories'] as $category)
-                                        <a href="{{ url($category['url']) }}" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ $category['category_name'] }}</a>
+                                        <a href="{{ url($category['url']) }}" class="dropdown-item">{{ $category['category_name'] }}</a>
                                         @foreach ($category['subcategories'] as $subcategory)
                                             <a href="{{ url($subcategory['url']) }}" class="dropdown-item">{{ $subcategory['category_name'] }}</a>
                                         @endforeach

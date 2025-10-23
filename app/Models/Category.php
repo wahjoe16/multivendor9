@@ -29,6 +29,22 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id');
     }
 
+    public static function categoryDetails($url)
+    {
+        $categoryDetails = Category::select('id', 'category_name', 'url')->with('subcategories')->where('url', $url)->first()->toArray();
+        // dd($categoryDetails);
+
+        $catIds = array();
+        $catIds[] = $categoryDetails['id'];
+        foreach ($categoryDetails['subcategories'] as $key => $subcat) {
+            $catIds[] = $subcat['id'];
+        }
+        // dd($catIds);
+
+        $resp = array('catIds'=>$catIds, 'categoryDetails'=>$categoryDetails);
+        return $resp;
+    }
+
     // public static function getCategoryProductsCount($category_id)
     // {
     //     $qty = Category::with('products')->where(['parent_id' => 0, 'category_id' => $category_id])->count();

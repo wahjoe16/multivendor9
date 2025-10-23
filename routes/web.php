@@ -7,12 +7,14 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
+use App\Http\Controllers\Front\ProductController as FrontProductController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
 use App\Models\Country;
 use App\Models\Vendor;
 use App\Models\VendorsBankDetail;
 use App\Models\VendorsBusinessDetail;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -30,8 +32,17 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::namespace('App\Http\Controllers\Front')->group(function () {
+    // Frontend Routes can be defined here if needed
+    Route::get('/', [IndexController::class, 'index'])->name('front.index');
 
-Route::get('/', [IndexController::class, 'index'])->name('front.index');
+    // listing category routes
+    $catUrl = Category::select('url')->where('status', 1)->get()->pluck('url')->toArray();
+    foreach ($catUrl as $key => $url) {
+        Route::get('/'.$url, [FrontProductController::class, 'listing'])->name('front.category.products');
+    }
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
