@@ -25,7 +25,7 @@ class ProductController extends Controller
             // dd($categoryDetails);
 
             // Get products under the category
-            $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])->where('status', 1)->get()->toArray();
+            $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])->where('status', 1)->paginate(3);
             // dd($categoryDetails);
             // Get all the categories and sub-categories
             return view('front.products.listing')->with(compact('categoryDetails', 'categoryProducts'));

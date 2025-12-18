@@ -74,6 +74,24 @@ class Product extends Model
         return $discountedPrice;
     }
 
+    // Fungsi untuk mengecek apakah produk itu produk baru atau bukan
+    public static function isProductNew($product_id)
+    {
+        // mengambil 3 produk terbaru berdasarkan id
+        $productIds = Product::select('id')->where('status', 1)->orderBy('id', 'DESC')->limit(3)->get()->pluck('id');
+        $productIds = json_decode(json_encode($productIds), true); // konversi ke array
+        // dd($productIds);
+
+        // Cek apakah product_id ada di dalam array produk terbaru
+        if (in_array($product_id, $productIds)) {
+            return $isProductNew = "Yes";
+        } else {
+            return $isProductNew = "No";
+        }
+
+        return $isProductNew;
+    }
+
     // public function getCategories()
     // {
     //     return $this->belongsTo(Category::class, 'id', 'category_id')->where([

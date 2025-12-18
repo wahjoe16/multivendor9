@@ -101,6 +101,11 @@
                                         <nav class="breadcrumb bg-light mb-30">
                                             <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">{{ $cp['product_code'] }}</a>
                                             <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">{{ $cp['brand']['name'] }}</a>
+                                            {{-- menampilkan label "New" jika produk baru --}}
+                                            <?php $isProductNew = Product::isProductNew($cp['id']); ?>
+                                            @if ($isProductNew == "Yes")
+                                                <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">New</a>
+                                            @endif
                                         </nav>
                                     </div>
                                 </div>
@@ -108,8 +113,17 @@
                         </div>
                     </div>
                 @endforeach
-            
+
                 <div class="col-12">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            {{-- Pagination Links --}}
+                            {{ $categoryProducts->links() }}
+                        </ul>
+                    </nav>
+                </div>
+            
+                {{-- <div class="col-12">
                     <nav>
                         <ul class="pagination justify-content-center">
                         <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
@@ -119,7 +133,7 @@
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                         </ul>
                     </nav>
-                </div>
+                </div> --}}
             </div>
         </div>
         <!-- Shop Product End -->
