@@ -5,6 +5,19 @@
 
 @section('content')
 
+<!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    {!! $categoryDetails['brandcrumbs'] !!}
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
 <!-- Shop Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -34,9 +47,8 @@
                             <div class="btn-group ml-2">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">10</a>
-                                    <a class="dropdown-item" href="#">20</a>
-                                    <a class="dropdown-item" href="#">30</a>
+                                    <a class="dropdown-item" href="#">{{ count($categoryProducts) }}</a>
+                                    <a class="dropdown-item" href="#">All</a>
                                 </div>
                             </div>
                         </div>
@@ -83,6 +95,14 @@
                                     <small class="fa fa-star text-primary mr-1"></small>
                                     <small class="fa fa-star text-primary mr-1"></small>
                                     <small>(99)</small>
+                                </div>
+                                <div class="row px-xl-5">
+                                    <div class="col-12">
+                                        <nav class="breadcrumb bg-light mb-30">
+                                            <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">{{ $cp['product_code'] }}</a>
+                                            <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">{{ $cp['brand']['name'] }}</a>
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
                         </div>

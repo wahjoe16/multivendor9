@@ -44,28 +44,33 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    // Function to get discounted price of a product
     public static function getDiscountPrice($product_id)
     {
+        // mengambil detail produk berdasarkan product_id 
         $productDetails = Product::select('product_price', 'product_discount', 'category_id')->where('id', $product_id)->first();
-        $productDetails = json_decode(json_encode($productDetails), true);
+        $productDetails = json_decode(json_encode($productDetails), true); // konversi ke array
 
+        // mengambil detail kategori berdasarkan category_id
         $categoryDetails = Category::select('category_discount')->where('id', $productDetails['category_id'])->first();
-        $categoryDetails = json_decode(json_encode($categoryDetails), true);
+        $categoryDetails = json_decode(json_encode($categoryDetails), true); // konversi ke array
 
+        // Jika ada diskon di produk maka ambil diskon produk
         if ($productDetails['product_discount'] > 0) {
-
+            // Hitung harga diskon
             $discountedPrice = $productDetails['product_price'] - ($productDetails['product_price'] * $productDetails['product_discount'] / 100);
-        
+            // Jika tidak ada diskon di produk tetapi ada diskon di kategori maka ambil diskon kategori
         } elseif ($categoryDetails['category_discount'] > 0) {
-            
+            // Hitung harga diskon
             $discountedPrice = $productDetails['product_price'] - ($productDetails['product_price'] * $categoryDetails['category_discount'] / 100);
-
+            // Jika tidak ada diskon di produk maupun di kategori maka harga diskon = 0
         } else {
-
+            
             $discountedPrice = 0;
             
         }
 
+        // Return harga diskon
         return $discountedPrice;
     }
 

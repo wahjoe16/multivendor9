@@ -29,19 +29,36 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id');
     }
 
+    // Function to get category details and its sub-categories
     public static function categoryDetails($url)
     {
-        $categoryDetails = Category::select('id', 'category_name', 'url')->with('subcategories')->where('url', $url)->first()->toArray();
+        // select detail kategori berdasarkan url
+        $categoryDetails = Category::select('id', 'parent_id', 'category_name', 'url')->with(['subcategories' => function($query){
+            $query->select('id', 'parent_id', 'category_name', 'url');
+        }])->where('url', $url)->first()->toArray();
         // dd($categoryDetails);
 
-        $catIds = array();
-        $catIds[] = $categoryDetails['id'];
+        
+        $catIds = array(); // Array untuk menampung id kategori dan sub-kategori
+        $catIds[] = $categoryDetails['id']; // Memasukkan id kategori utama ke dalam array
+
+        // hanya menampilkan main category di breadcrumbs
+        if ($categoryDetails['parent_id'] == 0) {
+            $brandcrumbs = '<a href="'.url($categoryDetails['url']).'" class="breadcrumb-item text-dark">'.$categoryDetails['category_name'].'</a>';
+        } else { // menampilkan main category dan sub category di breadcrumbs
+            $parentCategory = Category::select('category_name', 'url')->where('id', $categoryDetails['parent_id'])->first()->toArray();
+            // tambahkan parent category ke breadcrumbs
+            $brandcrumbs = '<a href="'.url($parentCategory['url']).'" class="breadcrumb-item text-dark">'.$parentCategory['category_name'].'</a> &nbsp; <a href="'.url($categoryDetails['url']).'" class="breadcrumb-item text-dark">'.$categoryDetails['category_name'].'</a>';
+        }
+
+        // Memasukkan id sub-kategori ke dalam array
         foreach ($categoryDetails['subcategories'] as $key => $subcat) {
-            $catIds[] = $subcat['id'];
+            $catIds[] = $subcat['id']; // Memasukkan id sub-kategori ke dalam array
         }
         // dd($catIds);
 
-        $resp = array('catIds'=>$catIds, 'categoryDetails'=>$categoryDetails);
+        // Return data dalam bentuk array 
+        $resp = array('catIds'=>$catIds, 'categoryDetails'=>$categoryDetails, 'brandcrumbs'=>$brandcrumbs);
         return $resp;
     }
 

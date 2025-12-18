@@ -36,7 +36,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     // Frontend Routes can be defined here if needed
     Route::get('/', [IndexController::class, 'index'])->name('front.index');
 
-    // listing category routes
+    // Route untuk menampilkan produk berdasarkan kategori yang user pilih/klik
     $catUrl = Category::select('url')->where('status', 1)->get()->pluck('url')->toArray();
     foreach ($catUrl as $key => $url) {
         Route::get('/'.$url, [FrontProductController::class, 'listing'])->name('front.category.products');
