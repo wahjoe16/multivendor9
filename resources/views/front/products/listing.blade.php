@@ -35,23 +35,25 @@
                             <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
                             <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
                         </div>
-                        <div class="ml-2">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
+                        <form name="sortProducts" id="sortProducts">
+                            <div class="ml-2">
+                                <div class="btn-group">
+                                    <select name="sort" id="sort" class="form-control">
+                                        <option value="">Sort By</option>
+                                        <option value="product_latest" @if(isset($_GET['sort']) && $_GET['sort']=="product_latest") selected @endif>Latest</option>
+                                        <option value="price_lowest" @if(isset($_GET['sort']) && $_GET['sort']=="price_lowest") selected @endif>Lowest Price</option>
+                                        <option value="price_highest" @if(isset($_GET['sort']) && $_GET['sort']=="price_highest") selected @endif>Highest Price</option>
+                                        <option value="name_asc" @if(isset($_GET['sort']) && $_GET['sort']=="name_asc") selected @endif>Name: A - Z</option>
+                                        <option value="name_desc" @if(isset($_GET['sort']) && $_GET['sort']=="name_desc") selected @endif>Name: Z - A</option>
+                                    </select>
+                                    <select name="show" id="show-by" class="form-control ml-2">
+                                        <option value="">Showing</option>
+                                        <option>{{ count($categoryProducts) }}</option>
+                                        <option>All</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="btn-group ml-2">
-                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">{{ count($categoryProducts) }}</a>
-                                    <a class="dropdown-item" href="#">All</a>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 @foreach ($categoryProducts as $cp)
@@ -117,23 +119,16 @@
                 <div class="col-12">
                     <nav>
                         <ul class="pagination justify-content-center">
-                            {{-- Pagination Links --}}
-                            {{ $categoryProducts->links() }}
+                            @if (isset($_GET['sort']))
+                                {{-- Pagination Links --}}
+                                {{ $categoryProducts->appends(['sort' => $_GET['sort']])->links() }}
+                            @else
+                                {{-- Pagination Links --}}
+                                {{ $categoryProducts->links() }}
+                            @endif
                         </ul>
                     </nav>
                 </div>
-            
-                {{-- <div class="col-12">
-                    <nav>
-                        <ul class="pagination justify-content-center">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
-                </div> --}}
             </div>
         </div>
         <!-- Shop Product End -->
@@ -142,3 +137,15 @@
 <!-- Shop End -->
 
 @endsection
+
+@push('bottom_scripts')
+    <script>
+        $(document).ready(function(){
+            // Sort products
+            $('#sort').on('change', function(){
+                // alert($(this).val());
+                this.form.submit();
+            });
+        });
+    </script>
+@endpush

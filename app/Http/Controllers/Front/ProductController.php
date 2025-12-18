@@ -25,7 +25,26 @@ class ProductController extends Controller
             // dd($categoryDetails);
 
             // Get products under the category
-            $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])->where('status', 1)->paginate(3);
+            $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])->where('status', 1);
+
+            // cek untuk sorting data
+            if (isset($_GET['sort']) && !empty($_GET['sort'])) {
+                if ($_GET['sort'] == "product_latest") {
+                    $categoryProducts = $categoryProducts->orderBy('id', 'Desc');
+                } elseif ($_GET['sort'] == "name_asc") {
+                    $categoryProducts = $categoryProducts->orderBy('product_name', 'Asc');
+                } elseif ($_GET['sort'] == "name_desc") {
+                    $categoryProducts = $categoryProducts->orderBy('product_name', 'Desc');
+                } elseif ($_GET['sort'] == "price_lowest") {
+                    $categoryProducts = $categoryProducts->orderBy('product_price', 'Asc');
+                } elseif ($_GET['sort'] == "price_highest") {
+                    $categoryProducts = $categoryProducts->orderBy('product_price', 'Desc');
+                }
+            } else {
+                $categoryProducts = $categoryProducts->orderBy('id', 'Desc');
+            }
+
+            $categoryProducts = $categoryProducts->paginate(3);
             // dd($categoryDetails);
             // Get all the categories and sub-categories
             return view('front.products.listing')->with(compact('categoryDetails', 'categoryProducts'));

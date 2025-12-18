@@ -54,6 +54,8 @@
 
     <!-- Template Javascript -->
     <script src="{{ url('/front/js/main.js') }}"></script>
+
+    @stack('bottom_scripts')
 </body>
 
 </html>
