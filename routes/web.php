@@ -39,7 +39,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     // Route untuk menampilkan produk berdasarkan kategori yang user pilih/klik
     $catUrl = Category::select('url')->where('status', 1)->get()->pluck('url')->toArray();
     foreach ($catUrl as $key => $url) {
-        Route::get('/'.$url, [FrontProductController::class, 'listing'])->name('front.category.products');
+        Route::match(['get', 'post'], '/'.$url, [FrontProductController::class, 'listing'])->name('front.category.products');
     }
 });
 

@@ -36,6 +36,7 @@
                             <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
                         </div>
                         <form name="sortProducts" id="sortProducts">
+                            <input type="hidden" id="url" value="{{ $url }}"> {{-- input hidden untuk mengirim url ke ajax --}}
                             <div class="ml-2">
                                 <div class="btn-group">
                                     <select name="sort" id="sort" class="form-control">
@@ -56,65 +57,11 @@
                         </form>
                     </div>
                 </div>
-                @foreach ($categoryProducts as $cp)
-                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                            <div class="product-img position-relative overflow-hidden">
-                                <?php
-                                    $imagePath = '/images/product_images/' . $cp['product_image'];
-                                ?>
-                                <a href="">
-                                    @if (!empty($cp['product_image']) && file_exists(public_path($imagePath)))
-                                        <img class="img-fluid w-100" src="{{ asset($imagePath) }}" alt="">
-                                    @else
-                                        <img class="img-fluid w-100" src="{{ asset('/images/product_images/no_image.png') }}" alt="">
-                                    @endif
-                                </a>
-                                <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
-                                <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">{{ $cp['product_name'] }}</a>
-                                <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <?php
-                                        $discountedPrice = Product::getDiscountPrice($cp['id']);
-                                    ?>
-                                    @if ($discountedPrice > 0)
-                                        <h5>${{ $discountedPrice }}</h5><h6 class="text-muted ml-2"><del>${{ $cp['product_price'] }}</del></h6>
-                                    @else
-                                        <h5>${{ $cp['product_price'] }}</h5>
-                                    @endif
-                                </div>
-                                <div class="d-flex align-items-center justify-content-center mb-1">
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small>(99)</small>
-                                </div>
-                                <div class="row px-xl-5">
-                                    <div class="col-12">
-                                        <nav class="breadcrumb bg-light mb-30">
-                                            <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">{{ $cp['product_code'] }}</a>
-                                            <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">{{ $cp['brand']['name'] }}</a>
-                                            {{-- menampilkan label "New" jika produk baru --}}
-                                            <?php $isProductNew = Product::isProductNew($cp['id']); ?>
-                                            @if ($isProductNew == "Yes")
-                                                <a class="breadcrumb-item text-dark" href="#" style="font-size: 10px;">New</a>
-                                            @endif
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+
+                {{-- Products Listing --}}
+                <div class="row filter-products">
+                    @include('front.products.ajax_products_listing')
+                </div>
 
                 <div class="col-12">
                     <nav>
@@ -139,12 +86,29 @@
 @endsection
 
 @push('bottom_scripts')
+    {{-- JavaScript for sorting products with AJAX --}}
     <script>
         $(document).ready(function(){
             // Sort products
             $('#sort').on('change', function(){
                 // alert($(this).val());
-                this.form.submit();
+                // this.form.submit();
+                var sort = $('#sort').val();
+                var url = $('#url').val();
+                // alert(url); return false;
+
+                // AJAX request
+                $.ajax({
+                    url: url,
+                    method: 'Post',
+                    data: {sort: sort, url: url, _token: '{{ csrf_token() }}'},
+                    success: function (data) {
+                        // alert(response);
+                        $('.filter-products').html(data);
+                    }, error: function () {
+                        alert("Error");
+                    }
+                })
             });
         });
     </script>
