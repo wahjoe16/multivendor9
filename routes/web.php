@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\FilterController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
@@ -118,6 +119,18 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::match(['get', 'post'], '/add-images-product/{id}', [ProductController::class, 'addImagesProduct'])->name('imagesProduct.add');
         Route::post('/update-attribute-status', [ProductController::class, 'updateAttributeStatus'])->name('updateAttributeStatus');
         Route::get('/delete/{id}/product', [ProductController::class, 'deleteProduct'])->name('delete.product');
+
+        // Filter management
+        Route::get('/filters', [FilterController::class, 'filters'])->name('filters.index');
+        Route::match(['get', 'post'], '/create-edit-filter/{id?}', [FilterController::class, 'createEditFilter'])->name('create.edit.filter');
+        Route::post('/update-filter-status', [FilterController::class, 'updateFilterStatus'])->name('update.filter.status');
+        Route::get('/delete/{id}/filter', [FilterController::class, 'deleteFilter'])->name('delete.filter');
+
+        // Filter Values Management
+        Route::get('/filter-values', [FilterController::class, 'filterValues'])->name('filter.values.index');
+        Route::match(['get', 'post'], '/create-edit-filter-value/{id?}', [FilterController::class, 'createEditFilterValue'])->name('create.edit.filter.value');
+        Route::post('/update-filter-value-status', [FilterController::class, 'updateFilterValueStatus'])->name('update.filter.value.status');
+        Route::get('/delete/{id}/filter-value', [FilterController::class, 'deleteFilterValue'])->name('delete.filter.value');
 
         // Banner Management
         Route::get('/banners', [BannerController::class, 'viewBanners'])->name('banners.view');

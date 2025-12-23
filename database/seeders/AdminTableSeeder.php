@@ -15,13 +15,24 @@ class AdminTableSeeder extends Seeder
     {
         $adminRecords = [
             [
+                'id'=>1, 
+                'name'=>'Wahyu Hidayat', 
+                'type'=>'Admin', 
+                'vendor_id'=>2, 
+                'mobile'=>'082240312828', 
+                'email'=>'wahjoe16@gmail.com',
+                'password'=>bcrypt('123456789'),
+                'image'=>'',
+                'status'=>1
+            ],
+            [
                 'id'=>2, 
                 'name'=>'John', 
                 'type'=>'Vendor', 
                 'vendor_id'=>1, 
                 'mobile'=>'082240312827', 
                 'email'=>'john@gmail.com',
-                'password'=>bcrypt('12345678'),
+                'password'=>bcrypt('123456789'),
                 'image'=>'',
                 'status'=>1
             ],

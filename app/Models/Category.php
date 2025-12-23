@@ -62,6 +62,14 @@ class Category extends Model
         return $resp;
     }
 
+    // Function to get category name by category id
+    public static function getCategoryName($category_id)
+    {
+        $getCategoryName= Category::select('category_name')->where('id', $category_id)->first();
+
+        return $getCategoryName->category_name;
+    }
+
     // public static function getCategoryProductsCount($category_id)
     // {
     //     $qty = Category::with('products')->where(['parent_id' => 0, 'category_id' => $category_id])->count();

@@ -33,6 +33,7 @@
             <li class="nav-item"> <a class="nav-link" href="{{ route('categories.view') }}">Categories</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('products.view') }}">Products</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('brands.view') }}">Brands</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('filters.index') }}">Filters</a></li>
         </ul>
         </div>
     </li>
