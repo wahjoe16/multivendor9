@@ -70,6 +70,45 @@ class FilterController extends Controller
         return view('admin.filter_values.index')->with(compact('filterValues'));
     }
 
+    public function createEditFilterValue(Request $request, $id = null)
+    {
+        if ($id == "") {
+            // Create Filter Value
+            $title = "Add Filter Value";
+            $filterValue = new ProductFilterValues();
+            $message = "Filter Value added successfully!";
+        } else {
+            // Edit Filter Value
+            $title = "Edit Filter Value";
+            $filterValue = ProductFilterValues::find($id);
+            $message = "Filter Value updated successfully!";
+        }
+
+        $filters = ProductsFilter::where('status', 1)->get()->toArray();
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            // dd($data);
+            $rules = [
+                'filter_id' => 'required',
+                'filter_value' => 'required',
+            ];
+            $customMessages = [
+                'filter_id.required' => 'Filter is required',
+                'filter_value.required' => 'Filter Value is required',
+            ];
+
+            $this->validate($request, $rules, $customMessages);
+            // Save to DB
+            $filterValue->filter_id = $data['filter_id'];
+            $filterValue->filter_value = $data['filter_value'];
+            $filterValue->status = 1;
+            $filterValue->save();
+            return redirect()->route('filter.values.index')->with('success_message', $message);
+        }
+        return view('admin.filter_values.create_edit')->with(compact('title', 'filterValue', 'filters'));
+    }
+
     public function updateFilterStatus(Request $request)
     {
         if ($request->ajax()) {
@@ -98,10 +137,5 @@ class FilterController extends Controller
 
             return response()->json(['status' => $status, 'filter_id' => $data['filter_id']]);
         }
-    }
-
-    public function createEditFilterValue()
-    {
-        
     }
 }
