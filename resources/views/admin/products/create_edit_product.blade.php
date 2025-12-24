@@ -58,6 +58,10 @@
                             @endforeach
                         </select>
                     </div>
+                    {{-- Script to append filters based on category selection --}}
+                    <div class="loadfilter"> {{--  Div to load filters dynamically --}}
+                        @include('admin.filters.category_filter')
+                    </div>
                     <div class="form-group">
                         <label for="brand_id">Select Brand</label>
                         <select name="brand_id" id="brand_id" class="form-control">
@@ -147,5 +151,24 @@
 @endsection
 
 @push('bottom-scripts')
-    <script></script>
+    {{-- Script to append filters based on category selection --}}
+    <script>
+        $('#category_id').change(function() { // When category dropdown changes
+            var category_id = $(this).val(); // Get the selected category ID 
+            // alert(category_id);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("append.filters.level") }}',
+                data: {
+                    category_id: category_id, // Send the category ID to the server
+                    _token: '{{ csrf_token() }}' // CSRF token for security
+                },
+                success: function(resp) { // On successful response
+                    // alert(resp);
+                    $('.loadfilter').html(resp.view); // Update the filter section with the new filters
+                },
+            })
+        })
+    </script>
 @endpush

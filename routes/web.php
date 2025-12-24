@@ -126,6 +126,9 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::post('/update-filter-status', [FilterController::class, 'updateFilterStatus'])->name('update.filter.status');
         Route::get('/delete/{id}/filter', [FilterController::class, 'deleteFilter'])->name('delete.filter');
 
+        // Append Filters Level
+        Route::post('/append-filters-level', [FilterController::class, 'appendFiltersLevel'])->name('append.filters.level');
+
         // Filter Values Management
         Route::get('/filter-values', [FilterController::class, 'filterValues'])->name('filter.values.index');
         Route::match(['get', 'post'], '/create-edit-filter-value/{id?}', [FilterController::class, 'createEditFilterValue'])->name('create.edit.filter.value');

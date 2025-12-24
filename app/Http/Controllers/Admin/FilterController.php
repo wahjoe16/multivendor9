@@ -8,6 +8,7 @@ use App\Models\ProductsFilter;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class FilterController extends Controller
 {
@@ -136,6 +137,20 @@ class FilterController extends Controller
             ProductFilterValues::where('id', $data['filter_id'])->update(['status' => $status]);
 
             return response()->json(['status' => $status, 'filter_id' => $data['filter_id']]);
+        }
+    }
+
+    // Append Filters Level
+    public function appendFiltersLevel(Request $request)
+    {
+        if ($request->ajax()) { // Check if the request is AJAX
+            $data = $request->all(); // Get all request data
+            // echo "<pre>"; print_r($data); die;
+
+            $category_id = $data['category_id']; // Get the category ID from the request
+            return response()->json([ // 
+                'view' => (String)View::make('admin.filters.category_filter')->with(compact('category_id')) // Render the view with the category ID
+            ]);
         }
     }
 }
