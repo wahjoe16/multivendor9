@@ -55,14 +55,9 @@
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by {{ $filter['filter_name'] }}</span></h5>
                 <div class="bg-light p-4 mb-30">
                     <form>
-                        {{-- <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="{{ 'filter-'.$filter['id'].'-all' }}">
-                            <label class="custom-control-label" for="{{ 'filter-'.$filter['id'].'-all' }}">All {{ $filter['filter_name'] }}</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div> --}}
                         @foreach ($filter['filter_values'] as $value)
                             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                <input type="checkbox" class="custom-control-input" id="{{ $value['filter_value'] }}">
+                                <input type="checkbox" class="custom-control-input {{ $filter['filter_column'] }}" id="{{ $value['filter_value'] }}" name="{{ $filter['filter_column'] }}[]" value="{{ $value['filter_value'] }}">
                                 <label class="custom-control-label" for="{{ $value['filter_value'] }}">{{ $value['filter_value'] }}</label>
                                 <span class="badge border font-weight-normal">150</span>
                             </div>

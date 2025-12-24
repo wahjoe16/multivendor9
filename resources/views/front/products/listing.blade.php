@@ -95,13 +95,14 @@
                 // this.form.submit();
                 var sort = $('#sort').val();
                 var url = $('#url').val();
+                var fabric = get_filter('fabric');
                 // alert(url); return false;
 
                 // AJAX request
                 $.ajax({
                     url: url,
                     method: 'Post',
-                    data: {sort: sort, url: url, _token: '{{ csrf_token() }}'},
+                    data: {sort: sort, url: url, fabric:fabric, _token: '{{ csrf_token() }}'},
                     success: function (data) {
                         // alert(response);
                         $('.filter-products').html(data);
@@ -111,5 +112,33 @@
                 })
             });
         });
+
+        $('.fabric').on('click', function() {
+            var url = $('#url').val();
+            var fabric = get_filter('fabric');
+            var sort = $('#sort option:selected').val();
+            // alert(fabric); return false;
+
+            // AJAX request
+            $.ajax({
+                url: url,
+                method: 'Post',
+                data: {sort: sort, fabric: fabric, url: url, _token: '{{ csrf_token() }}'},
+                success: function (data) {
+                    // alert(response);
+                    $('.filter-products').html(data);
+                }, error: function () {
+                    alert("Error");
+                }
+            })
+        })
+
+        function get_filter(class_name){
+            var filter = [];
+            $('.'+class_name+':checked').each(function(){
+                filter.push($(this).val());
+            });
+            return filter;
+        }
     </script>
 @endpush
