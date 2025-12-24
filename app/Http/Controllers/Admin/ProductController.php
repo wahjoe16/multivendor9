@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductImage;
+use App\Models\ProductsFilter;
 use App\Models\Section;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
@@ -89,6 +90,23 @@ class ProductController extends Controller
                 } else {
                     $videoName = "";
                 }
+            }          
+
+            // Validate and save product data
+            $catDetails = Category::find($data['category_id']);
+            $product->section_id = $catDetails['section_id'];
+            $product->category_id = $data['category_id'];
+            $product->brand_id = $data['brand_id'];
+
+            $productFilter = ProductsFilter::productFilters();
+            foreach ($productFilter as $filter) {
+                // echo $data['filter_'.$filter['filter_column']]; die; 
+                $filterAvailable = ProductsFilter::filterAvailable($filter['id'], $data['category_id']);
+                if ($filterAvailable == "Yes") {
+                    if (isset($filter['filter_column']) && $data[$filter['filter_column']]) {
+                        $product[$filter['filter_column']] = $data[$filter['filter_column']];
+                    }
+                }
             }
 
             // declare user product
@@ -96,14 +114,10 @@ class ProductController extends Controller
             $vendorId = Auth::guard('admin')->user()->vendor_id;
             $adminId = Auth::guard('admin')->user()->id;
 
-            // Validate and save product data
-            $catDetails = Category::find($data['category_id']);
-
-            $product->section_id = $catDetails['section_id'];
-            $product->category_id = $data['category_id'];
-            $product->brand_id = $data['brand_id'];
             $product->vendor_id = $vendorId;
             $product->admin_type = $adminType;
+
+
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
             $product->product_price = $data['product_price'];
