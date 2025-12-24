@@ -95,14 +95,14 @@
                 // this.form.submit();
                 var sort = $('#sort').val();
                 var url = $('#url').val();
-                var fabric = get_filter('fabric');
+                var fabric = get_filter('fabric'); // ambil nilai filter fabric
                 // alert(url); return false;
 
                 // AJAX request
                 $.ajax({
                     url: url,
                     method: 'Post',
-                    data: {sort: sort, url: url, fabric:fabric, _token: '{{ csrf_token() }}'},
+                    data: {sort: sort, url: url, fabric:fabric, _token: '{{ csrf_token() }}'}, // kirim data fabric juga
                     success: function (data) {
                         // alert(response);
                         $('.filter-products').html(data);
@@ -113,6 +113,7 @@
             });
         });
 
+        // Filter by fabric
         $('.fabric').on('click', function() {
             var url = $('#url').val();
             var fabric = get_filter('fabric');
@@ -133,6 +134,7 @@
             })
         })
 
+        // Function to get filter values
         function get_filter(class_name){
             var filter = [];
             $('.'+class_name+':checked').each(function(){

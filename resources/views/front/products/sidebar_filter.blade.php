@@ -57,6 +57,7 @@
                     <form>
                         @foreach ($filter['filter_values'] as $value)
                             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                                {{-- Checkbox untuk filter berdasarkan filter column dan filter value --}}
                                 <input type="checkbox" class="custom-control-input {{ $filter['filter_column'] }}" id="{{ $value['filter_value'] }}" name="{{ $filter['filter_column'] }}[]" value="{{ $value['filter_value'] }}">
                                 <label class="custom-control-label" for="{{ $value['filter_value'] }}">{{ $value['filter_value'] }}</label>
                                 <span class="badge border font-weight-normal">150</span>

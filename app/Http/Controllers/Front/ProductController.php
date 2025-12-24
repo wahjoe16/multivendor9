@@ -32,7 +32,7 @@ class ProductController extends Controller
                 // Get products under the category
                 $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])->where('status', 1);
 
-                
+                // filter berdasarkan fabric
                 if (isset($data['fabric']) && !empty($data['fabric'])) {
                     $categoryProducts->whereIn('products.fabric', $data['fabric']);
                 }
