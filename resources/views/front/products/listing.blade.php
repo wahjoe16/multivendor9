@@ -88,52 +88,6 @@
 @push('bottom_scripts')
     {{-- JavaScript for sorting products with AJAX --}}
     <script>
-        $(document).ready(function(){
-            // Sort products
-            $('#sort').on('change', function(){
-                // alert($(this).val());
-                // this.form.submit();
-                var sort = $('#sort').val();
-                var url = $('#url').val();
-                var fabric = get_filter('fabric'); // ambil nilai filter fabric
-                // alert(url); return false;
-
-                // AJAX request
-                $.ajax({
-                    url: url,
-                    method: 'Post',
-                    data: {sort: sort, url: url, fabric:fabric, _token: '{{ csrf_token() }}'}, // kirim data fabric juga
-                    success: function (data) {
-                        // alert(response);
-                        $('.filter-products').html(data);
-                    }, error: function () {
-                        alert("Error");
-                    }
-                })
-            });
-        });
-
-        // Filter by fabric
-        $('.fabric').on('click', function() {
-            var url = $('#url').val();
-            var fabric = get_filter('fabric');
-            var sort = $('#sort option:selected').val();
-            // alert(fabric); return false;
-
-            // AJAX request
-            $.ajax({
-                url: url,
-                method: 'Post',
-                data: {sort: sort, fabric: fabric, url: url, _token: '{{ csrf_token() }}'},
-                success: function (data) {
-                    // alert(response);
-                    $('.filter-products').html(data);
-                }, error: function () {
-                    alert("Error");
-                }
-            })
-        })
-
         // Function to get filter values
         function get_filter(class_name){
             var filter = [];

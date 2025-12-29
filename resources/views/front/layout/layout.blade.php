@@ -58,6 +58,8 @@
     <!-- Template Javascript -->
     <script src="{{ url('/front/js/main.js') }}"></script>
 
+    @include('front.layout.scripts')
+
     @stack('bottom_scripts')
 </body>
 

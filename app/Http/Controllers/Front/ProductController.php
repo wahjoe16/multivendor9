@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductsFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,16 @@ class ProductController extends Controller
                 $categoryProducts = Product::with('brand')->whereIn('category_id', $categoryDetails['catIds'])->where('status', 1);
 
                 // filter berdasarkan fabric
-                if (isset($data['fabric']) && !empty($data['fabric'])) {
-                    $categoryProducts->whereIn('products.fabric', $data['fabric']);
+                // if (isset($data['fabric']) && !empty($data['fabric'])) {
+                //     $categoryProducts->whereIn('products.fabric', $data['fabric']);
+                // }
+
+                // cek untuk filter dinamis
+                $productFilters = ProductsFilter::productFilters();
+                foreach ($productFilters as $key => $filter) {
+                    if (isset($filter['filter_column']) && isset($data[$filter['filter_column']]) && !empty($filter['filter_column']) && !empty($data[$filter['filter_column']])) {
+                        $categoryProducts->whereIn($filter['filter_column'], $data[$filter['filter_column']]);
+                    }
                 }
 
                 // cek untuk sorting data
