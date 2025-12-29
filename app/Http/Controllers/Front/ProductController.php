@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Models\ProductsFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,8 @@ class ProductController extends Controller
         if ($request->ajax()) {
 
             $data = $request->all();
+
+            // echo "<pre>"; print_r($data); die;
 
             $url = $data['url']; // assign url ke variable dari input data hidden url
             // dd($url);
@@ -44,6 +47,13 @@ class ProductController extends Controller
                     if (isset($filter['filter_column']) && isset($data[$filter['filter_column']]) && !empty($filter['filter_column']) && !empty($data[$filter['filter_column']])) {
                         $categoryProducts->whereIn($filter['filter_column'], $data[$filter['filter_column']]);
                     }
+                }
+
+                // cek untuk filter by size
+                if (isset($data['size']) && !empty($data['size'])) {
+                    // mendapatkan product_id dari tabel product_attributes berdasarkan size yang dipilih
+                    $productIds = ProductAttribute::select('product_id')->whereIn('size', $data['size'])->pluck('product_id')->toArray(); 
+                    $categoryProducts->whereIn('products.id', $productIds); // filter produk berdasarkan product_id yang didapatkan
                 }
 
                 // cek untuk sorting data

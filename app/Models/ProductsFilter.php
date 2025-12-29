@@ -50,4 +50,23 @@ class ProductsFilter extends Model
 
         return $available; // Return whether the filter is available for the given category
     }
+
+    // fungsi untuk mendapatkan size berdasarkan category url
+    public static function getSizes($url)
+    {
+        // mendapatkan detail category berdasarkan url
+        $categoryDetails = Category::categoryDetails($url); 
+
+        // mendapatkan product_id berdasarkan category_id dari detail category
+        $getProductIds = Product::whereIn('category_id', $categoryDetails['catIds'])->pluck('id')->toArray(); 
+
+        // mendapatkan size dari product_attributes berdasarkan product_id yang didapatkan sebelumnya
+        $getProductSizes = ProductAttribute::select('size')->whereIn('product_id', $getProductIds)->groupBy('size')->pluck('size')->toArray();  
+
+        // echo "<pre>";
+        // print_r($getProductSizes);
+        // die;
+
+        return $getProductSizes; // mengembalikan nilai size
+    }
 }

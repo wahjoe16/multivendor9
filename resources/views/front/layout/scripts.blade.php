@@ -16,8 +16,9 @@
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
 
+            // Get all dynamic filter columns
             @foreach ($productFilters as $filters)
-                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}');
+                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}'); // ambil nilai filter dynamic
             @endforeach
 
             // AJAX request
@@ -41,16 +42,54 @@
                 }
             })
         });
+
+        // Filter By Size
+        $('.size').on('change', function(){ // ketika ada perubahan pada checkbox size
+            // alert($(this).val());
+            // this.form.submit();
+            var size = get_filter('size'); // ambil nilai filter size
+            var sort = $('#sort').val();
+            var url = $('#url').val();
+            // var fabric = get_filter('fabric'); // ambil nilai filter fabric
+            // alert(url); return false;
+
+            // Get all dynamic filter columns
+            @foreach ($productFilters as $filters)
+                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}');
+            @endforeach
+
+            // AJAX request
+            $.ajax({
+                url: url,
+                method: 'Post',
+                data: {
+                    sort: sort, 
+                    url: url, 
+                    size: size,
+                    @foreach ($productFilters as $filters)
+                        {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
+                    @endforeach
+                    _token: '{{ csrf_token() }}'
+                }, // kirim data fabric juga
+                success: function (data) {
+                    // alert(response);
+                    $('.filter-products').html(data);
+                }, error: function () {
+                    alert("Error");
+                }
+            })
+        });
     });
 
-    // Filter by fabric
+    // Filter by dinamic filter columns
     @foreach ($productFilters as $filter)
         $('.{{ $filter["filter_column"] }}').on('click', function() {
             var url = $('#url').val();
             var sort = $('#sort option:selected').val();
 
+            // Get all dynamic filter columns
             @foreach ($productFilters as $filters)
-                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}');
+                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}'); // ambil nilai filter dynamic
                 // alert({{ $filter["filter_column"] }}); return false;
             @endforeach
             
