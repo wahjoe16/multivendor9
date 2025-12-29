@@ -11,8 +11,11 @@
         $('#sort').on('change', function(){
             // alert($(this).val());
             // this.form.submit();
-            var sort = $('#sort').val();
-            var url = $('#url').val();
+            var sort = $('#sort').val(); // ambil nilai sorting
+            var url = $('#url').val(); // ambil url saat ini
+            var size = get_filter('size'); // ambil nilai filter size
+            var color = get_filter('color'); // ambil nilai filter color
+
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
 
@@ -27,7 +30,9 @@
                 method: 'Post',
                 data: {
                     sort: sort, 
-                    url: url, 
+                    url: url,
+                    size: size,
+                    color: color, 
                     // fabric:fabric, 
                     @foreach ($productFilters as $filters)
                         {{ $filters["filter_column"] }}: {{ $filters["filter_column"] }},
@@ -48,8 +53,10 @@
             // alert($(this).val());
             // this.form.submit();
             var size = get_filter('size'); // ambil nilai filter size
-            var sort = $('#sort').val();
-            var url = $('#url').val();
+            var sort = $('#sort').val(); // ambil nilai sorting
+            var url = $('#url').val(); // ambil url saat ini
+            var color = get_filter('color'); // ambil nilai filter color
+
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
 
@@ -66,6 +73,7 @@
                     sort: sort, 
                     url: url, 
                     size: size,
+                    color: color,
                     @foreach ($productFilters as $filters)
                         {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
                     @endforeach
@@ -79,32 +87,38 @@
                 }
             })
         });
-    });
 
-    // Filter by dinamic filter columns
-    @foreach ($productFilters as $filter)
-        $('.{{ $filter["filter_column"] }}').on('click', function() {
-            var url = $('#url').val();
-            var sort = $('#sort option:selected').val();
+        // Filter By Color
+        $('.color').on('change', function(){ // ketika ada perubahan pada checkbox color
+            // alert($(this).val());
+            // this.form.submit();
+            var color = get_filter('color'); // ambil nilai filter color
+            var sort = $('#sort').val(); // ambil nilai sorting
+            var url = $('#url').val(); // ambil url saat ini
+            var size = get_filter('size'); // ambil nilai filter size
+
+            // var fabric = get_filter('fabric'); // ambil nilai filter fabric
+            // alert(url); return false;
 
             // Get all dynamic filter columns
             @foreach ($productFilters as $filters)
-                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}'); // ambil nilai filter dynamic
-                // alert({{ $filter["filter_column"] }}); return false;
+                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}');
             @endforeach
-            
 
             // AJAX request
             $.ajax({
                 url: url,
                 method: 'Post',
                 data: {
+                    size: size,
+                    sort: sort, 
+                    url: url, 
+                    color: color,
                     @foreach ($productFilters as $filters)
-                        {{ $filters["filter_column"] }}: {{ $filters["filter_column"] }},
-                        
+                        {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
                     @endforeach
-                    sort: sort, {{ $filter["filter_column"] }}: {{ $filter["filter_column"] }}, url: url, _token: '{{ csrf_token() }}'
-                },
+                    _token: '{{ csrf_token() }}'
+                }, // kirim data fabric juga
                 success: function (data) {
                     // alert(response);
                     $('.filter-products').html(data);
@@ -112,7 +126,48 @@
                     alert("Error");
                 }
             })
-        })
-    @endforeach
-    
+        });
+
+        // Filter by dinamic filter columns
+        @foreach ($productFilters as $filter)
+            $('.{{ $filter["filter_column"] }}').on('click', function() {
+                var url = $('#url').val(); // ambil url saat ini
+                var sort = $('#sort option:selected').val(); // ambil nilai sorting
+                var size = get_filter('size'); // ambil nilai filter size
+                var color = get_filter('color'); // ambil nilai filter color
+
+                // Get all dynamic filter columns
+                @foreach ($productFilters as $filters)
+                    var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}'); // ambil nilai filter dynamic
+                    // alert({{ $filter["filter_column"] }}); return false;
+                @endforeach
+                
+
+                // AJAX request
+                $.ajax({
+                    url: url,
+                    method: 'Post',
+                    data: {
+                        @foreach ($productFilters as $filters)
+                            {{ $filters["filter_column"] }}: {{ $filters["filter_column"] }},
+                        @endforeach
+                        sort: sort,
+                        url: url, 
+                        size: size,
+                        color: color, 
+                        {{ $filter["filter_column"] }}: {{ $filter["filter_column"] }}, 
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (data) {
+                        // alert(response);
+                        $('.filter-products').html(data);
+                    }, error: function () {
+                        alert("Error");
+                    }
+                })
+            })
+        @endforeach
+
+    });
+
 </script>

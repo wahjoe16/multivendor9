@@ -56,6 +56,12 @@ class ProductController extends Controller
                     $categoryProducts->whereIn('products.id', $productIds); // filter produk berdasarkan product_id yang didapatkan
                 }
 
+                // filter berdasarkan color / warna
+                if (isset($data['color']) && !empty($data['color'])) {
+                    $productIds = Product::select('id')->whereIn('product_color', $data['color'])->pluck('id')->toArray();
+                    $categoryProducts->whereIn('products.id', $productIds);
+                }
+
                 // cek untuk sorting data
                 if (isset($_GET['sort']) && !empty($_GET['sort'])) {
                     if ($_GET['sort'] == "product_latest") {

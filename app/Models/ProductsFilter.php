@@ -69,4 +69,21 @@ class ProductsFilter extends Model
 
         return $getProductSizes; // mengembalikan nilai size
     }
+
+
+    public static function getColors($url)
+    {
+        // mendapatkan detail category berdasarkan url
+        $categoryDetails = Category::categoryDetails($url);
+
+        // mendapatkan product_id berdasarkan category_id dari detail category
+        $getProductIds = Product::whereIn('category_id', $categoryDetails['catIds'])->pluck('id')->toArray();
+
+
+        $getProductColors = Product::select('product_color')->whereIn('id', $getProductIds)->groupBy('product_color')->pluck('product_color')->toArray();
+
+        // echo "<pre>"; print_r($getProductColors); die;
+
+        return $getProductColors;
+    }
 }

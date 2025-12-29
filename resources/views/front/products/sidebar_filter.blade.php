@@ -94,4 +94,28 @@
         </form>
     </div>
     <!-- Size End -->
+
+    <!-- Color Start -->
+    <?php
+        $getcolors = ProductsFilter::getColors($url); // memanggil function getColors dari model ProductsFilter
+    ?>
+    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
+    <div class="bg-light p-4 mb-30">
+        <form>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                <input type="checkbox" class="custom-control-input" checked id="color-all">
+                <label class="custom-control-label" for="color-all">All Color</label>
+                <span class="badge border font-weight-normal">1000</span>
+            </div>
+            {{-- Loop through colors and create checkboxes --}}
+            @foreach ($getcolors as $key => $color)
+                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                    <input type="checkbox" class="custom-control-input color" name="color[]" id="color{{ $key }}" value="{{ $color }}">
+                    <label class="custom-control-label" for="color{{ $key }}">{{ $color }}</label>
+                    <span class="badge border font-weight-normal">150</span>
+                </div>
+            @endforeach
+        </form>
+    </div>
+    <!-- Color End -->
 </div>
