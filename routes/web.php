@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
+use App\Http\Controllers\Front\VendorController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin;
 use App\Models\Country;
@@ -42,6 +43,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     foreach ($catUrl as $key => $url) {
         Route::match(['get', 'post'], '/'.$url, [FrontProductController::class, 'listing'])->name('front.category.products');
     }
+
+    Route::get('/vendor/login-register', [VendorController::class, 'loginRegister'])->name('vendor.login.register');
+    Route::post('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
+    Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 });
 
 
