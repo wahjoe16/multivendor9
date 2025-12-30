@@ -22,6 +22,23 @@
         </form>
     </div>
     <!-- Price End -->
+
+    <!-- Brand Start -->
+    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by brand</span></h5>
+    <div class="bg-light p-4 mb-30">
+        <form>
+            <?php
+                $getBrands = ProductsFilter::getBrands($url); // memanggil function getBrands dari model ProductsFilter
+            ?>
+            @foreach ($getBrands as $key => $brand)
+                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                    <input type="checkbox" class="custom-control-input brand" name="brand[]" id="brand{{ $key }}" value="{{ $brand['id'] }}">
+                    <label class="custom-control-label" for="brand{{ $key }}">{{ $brand['name'] }}</label>
+                </div>
+            @endforeach
+        </form>
+    </div>
+    <!-- Brand End -->
     
     <!-- Filter Start -->
     @foreach ($productFilters as $filter)

@@ -86,4 +86,23 @@ class ProductsFilter extends Model
 
         return $getProductColors;
     }
+
+    public static function getBrands($url)
+    {
+        // mendapatkan detail category berdasarkan url
+        $categoryDetails = Category::categoryDetails($url);
+
+        // mendapatkan product_id berdasarkan category_id dari detail category
+        $getProductIds = Product::select('id')->whereIn('category_id', $categoryDetails['catIds'])->pluck('id')->toArray();
+
+        // mengembalikan brand_id dari product berdasarkan product_id yang didapatkan sebelumnya
+        $brandIds = Product::select('brand_id')->whereIn('id', $getProductIds)->groupBy('brand_id')->pluck('brand_id')->toArray();
+
+        // mendapatkan detail brand berdasarkan brand_id yang didapatkan sebelumnya
+        $brandDetails = Brand::select('id', 'name')->whereIn('id', $brandIds)->get()->toArray();
+        
+        // echo "<pre>"; print_r($brandDetails); die;
+
+        return $brandDetails;
+    }
 }

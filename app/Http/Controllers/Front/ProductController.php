@@ -62,14 +62,20 @@ class ProductController extends Controller
                     $categoryProducts->whereIn('products.id', $productIds);
                 }
 
+                // filter berdasarkan brand / merek
+                if (isset($data['brand']) && !empty($data['brand'])) { // cek jika ada filter brand
+                    $productIds = Product::select('id')->whereIn('brand_id', $data['brand'])->pluck('id')->toArray(); // ambil product id berdasarkan brand yang dipilih
+                    $categoryProducts->whereIn('products.id', $productIds); // filter produk berdasarkan product_id yang didapatkan
+                }
+
                 // filter berdasarkan price / harga
-                if (isset($data['price']) && !empty($data['price'])) {
-                    $implodePrice = implode('-', $data['price']);
-                    $explodePrice = explode('-', $implodePrice);
-                    $minPrice = reset($explodePrice);
-                    $maxPrice = end($explodePrice);
-                    $productIds = Product::select('id')->whereBetween('product_price', [$minPrice, $maxPrice])->pluck('id')->toArray();
-                    $categoryProducts->whereIn('products.id', $productIds);
+                if (isset($data['price']) && !empty($data['price'])) { // cek jika ada filter price
+                    $implodePrice = implode('-', $data['price']); // gabungkan array menjadi string dengan pemisah '-'
+                    $explodePrice = explode('-', $implodePrice); // pecah string menjadi array berdasarkan '-'
+                    $minPrice = reset($explodePrice); // ambil nilai pertama sebagai min price
+                    $maxPrice = end($explodePrice); // ambil nilai terakhir sebagai max price
+                    $productIds = Product::select('id')->whereBetween('product_price', [$minPrice, $maxPrice])->pluck('id')->toArray(); // ambil product id berdasarkan rentang harga yang dipilih
+                    $categoryProducts->whereIn('products.id', $productIds); // filter produk berdasarkan product_id yang didapatkan
                 }
 
                 // cek untuk sorting data

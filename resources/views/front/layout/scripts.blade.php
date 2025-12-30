@@ -16,6 +16,7 @@
             var size = get_filter('size'); // ambil nilai filter size
             var color = get_filter('color'); // ambil nilai filter color
             var price = get_filter('price'); // ambil nilai filter price
+            var brand = get_filter('brand'); // ambil nilai filter brand
 
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
@@ -35,6 +36,7 @@
                     size: size,
                     color: color, 
                     price: price,
+                    brand: brand,
                     // fabric:fabric, 
                     @foreach ($productFilters as $filters)
                         {{ $filters["filter_column"] }}: {{ $filters["filter_column"] }},
@@ -59,6 +61,7 @@
             var url = $('#url').val(); // ambil url saat ini
             var price = get_filter('price'); // ambil price saat ini
             var color = get_filter('color'); // ambil nilai filter color
+            var brand = get_filter('brand'); // ambil nilai filter brand
 
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
@@ -78,6 +81,7 @@
                     size: size,
                     color: color,
                     price: price,
+                    brand: brand,
                     @foreach ($productFilters as $filters)
                         {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
                     @endforeach
@@ -101,6 +105,7 @@
             var url = $('#url').val(); // ambil url saat ini
             var size = get_filter('size'); // ambil nilai filter size
             var price = get_filter('price'); // ambil nilai filter price
+            var brand = get_filter('brand'); // ambil nilai filter brand
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
 
@@ -119,6 +124,7 @@
                     url: url, 
                     color: color,
                     price: price,
+                    brand: brand,
                     @foreach ($productFilters as $filters)
                         {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
                     @endforeach
@@ -142,6 +148,7 @@
             var sort = $('#sort').val(); // ambil nilai sorting
             var url = $('#url').val(); // ambil url saat ini
             var size = get_filter('size'); // ambil nilai filter size
+            var brand = get_filter('brand'); // ambil nilai filter brand
 
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
@@ -156,6 +163,51 @@
                 url: url,
                 method: 'Post',
                 data: {
+                    price: price,
+                    size: size,
+                    sort: sort, 
+                    url: url, 
+                    color: color,
+                    brand: brand,
+                    @foreach ($productFilters as $filters)
+                        {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
+                    @endforeach
+                    _token: '{{ csrf_token() }}'
+                }, // kirim data fabric juga
+                success: function (data) {
+                    // alert(response);
+                    $('.filter-products').html(data);
+                }, error: function () {
+                    alert("Error");
+                }
+            })
+        });
+
+        // Filter By Brand
+        $('.brand').on('change', function(){ // ketika ada perubahan pada checkbox brand
+            // alert($(this).val());
+            // this.form.submit();
+            var brand = get_filter('brand'); // ambil nilai filter brand
+            var price = get_filter('price'); // ambil nilai filter price
+            var color = get_filter('color'); // ambil nilai filter color
+            var sort = $('#sort').val(); // ambil nilai sorting
+            var url = $('#url').val(); // ambil url saat ini
+            var size = get_filter('size'); // ambil nilai filter size
+
+            // var fabric = get_filter('fabric'); // ambil nilai filter fabric
+            // alert(url); return false;
+
+            // Get all dynamic filter columns
+            @foreach ($productFilters as $filters)
+                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}');
+            @endforeach
+
+            // AJAX request
+            $.ajax({
+                url: url,
+                method: 'Post',
+                data: {
+                    brand: brand,
                     price: price,
                     size: size,
                     sort: sort, 
@@ -183,6 +235,7 @@
                 var size = get_filter('size'); // ambil nilai filter size
                 var color = get_filter('color'); // ambil nilai filter color
                 var price = get_filter('price'); // ambil nilai filter price
+                var brand = get_filter('brand'); // ambil nilai filter brand
 
                 // Get all dynamic filter columns
                 @foreach ($productFilters as $filters)
@@ -204,6 +257,7 @@
                         size: size,
                         color: color, 
                         price: price,
+                        brand: brand,
                         {{ $filter["filter_column"] }}: {{ $filter["filter_column"] }}, 
                         _token: '{{ csrf_token() }}'
                     },
