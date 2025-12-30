@@ -15,6 +15,7 @@
             var url = $('#url').val(); // ambil url saat ini
             var size = get_filter('size'); // ambil nilai filter size
             var color = get_filter('color'); // ambil nilai filter color
+            var price = get_filter('price'); // ambil nilai filter price
 
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
@@ -33,6 +34,7 @@
                     url: url,
                     size: size,
                     color: color, 
+                    price: price,
                     // fabric:fabric, 
                     @foreach ($productFilters as $filters)
                         {{ $filters["filter_column"] }}: {{ $filters["filter_column"] }},
@@ -55,6 +57,7 @@
             var size = get_filter('size'); // ambil nilai filter size
             var sort = $('#sort').val(); // ambil nilai sorting
             var url = $('#url').val(); // ambil url saat ini
+            var price = get_filter('price'); // ambil price saat ini
             var color = get_filter('color'); // ambil nilai filter color
 
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
@@ -74,6 +77,7 @@
                     url: url, 
                     size: size,
                     color: color,
+                    price: price,
                     @foreach ($productFilters as $filters)
                         {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
                     @endforeach
@@ -96,6 +100,48 @@
             var sort = $('#sort').val(); // ambil nilai sorting
             var url = $('#url').val(); // ambil url saat ini
             var size = get_filter('size'); // ambil nilai filter size
+            var price = get_filter('price'); // ambil nilai filter price
+            // var fabric = get_filter('fabric'); // ambil nilai filter fabric
+            // alert(url); return false;
+
+            // Get all dynamic filter columns
+            @foreach ($productFilters as $filters)
+                var {{ $filters["filter_column"] }} = get_filter('{{ $filters["filter_column"] }}');
+            @endforeach
+
+            // AJAX request
+            $.ajax({
+                url: url,
+                method: 'Post',
+                data: {
+                    size: size,
+                    sort: sort, 
+                    url: url, 
+                    color: color,
+                    price: price,
+                    @foreach ($productFilters as $filters)
+                        {{ $filters["filter_column"] }} : {{ $filters["filter_column"] }},
+                    @endforeach
+                    _token: '{{ csrf_token() }}'
+                }, // kirim data fabric juga
+                success: function (data) {
+                    // alert(response);
+                    $('.filter-products').html(data);
+                }, error: function () {
+                    alert("Error");
+                }
+            })
+        });
+
+        // Filter By Price
+        $('.price').on('change', function(){ // ketika ada perubahan pada checkbox price
+            // alert($(this).val());
+            // this.form.submit();
+            var price = get_filter('price'); // ambil nilai filter price
+            var color = get_filter('color'); // ambil nilai filter color
+            var sort = $('#sort').val(); // ambil nilai sorting
+            var url = $('#url').val(); // ambil url saat ini
+            var size = get_filter('size'); // ambil nilai filter size
 
             // var fabric = get_filter('fabric'); // ambil nilai filter fabric
             // alert(url); return false;
@@ -110,6 +156,7 @@
                 url: url,
                 method: 'Post',
                 data: {
+                    price: price,
                     size: size,
                     sort: sort, 
                     url: url, 
@@ -135,6 +182,7 @@
                 var sort = $('#sort option:selected').val(); // ambil nilai sorting
                 var size = get_filter('size'); // ambil nilai filter size
                 var color = get_filter('color'); // ambil nilai filter color
+                var price = get_filter('price'); // ambil nilai filter price
 
                 // Get all dynamic filter columns
                 @foreach ($productFilters as $filters)
@@ -155,6 +203,7 @@
                         url: url, 
                         size: size,
                         color: color, 
+                        price: price,
                         {{ $filter["filter_column"] }}: {{ $filter["filter_column"] }}, 
                         _token: '{{ csrf_token() }}'
                     },

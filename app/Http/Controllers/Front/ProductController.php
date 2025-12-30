@@ -62,6 +62,16 @@ class ProductController extends Controller
                     $categoryProducts->whereIn('products.id', $productIds);
                 }
 
+                // filter berdasarkan price / harga
+                if (isset($data['price']) && !empty($data['price'])) {
+                    $implodePrice = implode('-', $data['price']);
+                    $explodePrice = explode('-', $implodePrice);
+                    $minPrice = reset($explodePrice);
+                    $maxPrice = end($explodePrice);
+                    $productIds = Product::select('id')->whereBetween('product_price', [$minPrice, $maxPrice])->pluck('id')->toArray();
+                    $categoryProducts->whereIn('products.id', $productIds);
+                }
+
                 // cek untuk sorting data
                 if (isset($_GET['sort']) && !empty($_GET['sort'])) {
                     if ($_GET['sort'] == "product_latest") {
