@@ -8,7 +8,7 @@
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
                     <a class="breadcrumb-item text-dark" href="{{ route('dashboard') }}">Home</a>
-                    <span class="breadcrumb-item active">Login - Register</span>
+                    <span class="breadcrumb-item active">Sign In or Sign Up</span>
                 </nav>
             </div>
         </div>
@@ -23,7 +23,7 @@
         <div class="row px-xl-5">
             <div class="col-lg-6 mb-5">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Vendor
-                        Login</span></h5>
+                        Sign In</span></h5>
                 <div class="bg-light p-30 mb-5">
                     <form action="{{ route('vendor.login') }}" method="POST">@csrf
                         <div class="form-group">
@@ -35,14 +35,14 @@
                             <input type="password" class="form-control" id="loginPassword" placeholder="Enter Password">
                         </div>
                         <div>
-                            <button class="btn btn-primary btn-block py-2 px-4" type="submit" id="sendMessageButton">Login</button>
+                            <button class="btn btn-primary btn-block py-2 px-4" type="submit" id="sendMessageButton">Sign In</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="col-lg-6 mb-5">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span
-                        class="bg-secondary pr-3">Vendor Register</span></h5>
+                        class="bg-secondary pr-3">Vendor Sign Up</span></h5>
                 <div class="bg-light p-30 mb-5">
                     <form action="{{ route('vendor.register') }}" method="POST">@csrf
                         <div class="form-group">
@@ -66,7 +66,7 @@
                             <label for="acceptTerms" class="mb-2">Accept Terms & Conditions</label>
                         </div>
                         <div>
-                            <button class="btn btn-primary btn-block py-2 px-4" type="submit" id="sendMessageButton">Register</button>
+                            <button class="btn btn-primary btn-block py-2 px-4" type="submit" id="sendMessageButton">Sign Up</button>
                         </div>
                     </form>
                 </div>

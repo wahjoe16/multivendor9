@@ -47,6 +47,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     Route::get('/vendor/login-register', [VendorController::class, 'loginRegister'])->name('vendor.login.register');
     Route::post('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
     Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
+
+    Route::get('/vendor/confirmation/{code}', [VendorController::class, 'vendorConfirmation'])->name('vendor.confirmation');
 });
 
 
