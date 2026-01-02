@@ -17,7 +17,7 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="{{ url('admin/admins/admin') }}">Admins</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ url('admin/admins/subadmin') }}">Sub Admins</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ url('admin/admins/vendor') }}">Vendors</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.vendors') }}">Vendors</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ url('admin/admins/') }}">All</a></li>
                     </ul>
                 </div>

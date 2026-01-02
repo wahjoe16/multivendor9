@@ -79,6 +79,7 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::post('/update-admin-password', [AdminController::class, 'updateAdminPassword'])->name('update.admin.password');
         Route::post('/update-admin-profile', [AdminController::class, 'updateAdminProfile'])->name('update.admin.profile');
         Route::get('admins/{type?}', [AdminController::class, 'viewAdmins'])->name('view.admins');
+        Route::get('/view-vendors', [AdminController::class, 'viewVendors'])->name('view.vendors');
 
         Route::get('/personal-business-bank-settings', function () {
             $dataAdmin = Admin::where('id', Auth::guard('admin')->user()->id)->first();

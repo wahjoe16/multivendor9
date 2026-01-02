@@ -21,16 +21,16 @@ class Admin extends Authenticatable
 
     public function vendorPersonal()
     {
-        return $this->belongsTo(Vendor::class, 'vendor_id');
+        return $this->hasOne(Vendor::class, 'admins_id', 'id');
     }
 
     public function vendorBusiness()
     {
-        return $this->belongsTo(VendorsBusinessDetail::class, 'vendor_id');
+        return $this->hasOne(VendorsBusinessDetail::class, 'admins_id', 'id');
     }
 
     public function vendorBank()
     {
-        return $this->belongsTo(VendorsBankDetail::class, 'vendor_id');
+        return $this->hasOne(VendorsBankDetail::class, 'admins_id', 'id');
     }
 }

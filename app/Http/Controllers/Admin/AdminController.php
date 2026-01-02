@@ -319,10 +319,20 @@ class AdminController extends Controller
         return view('admin.admins.view_admin', compact('admins', 'title'));
     }
 
+    public function viewVendors()
+    {
+        $title = "All Vendors";
+        $data = Admin::with([
+            'vendorPersonal', 'vendorBusiness', 'vendorBank'
+        ])->where('type', '=', 'Vendor')->get();
+
+        return view('admin.vendors.view_vendor', compact('data', 'title'));
+    }
+
     public function showVendor($id)
     {
-        $vendorDetails = Admin::with(['vendorPersonal', 'vendorBusiness', 'vendorBank'])->where('id', $id)->first();
-        $vendorDetails = json_decode(json_encode($vendorDetails), true);
+        $vendorDetails = Admin::with(['vendorPersonal', 'vendorBusiness', 'vendorBank'])->findOrFail($id);
+        // $vendorDetails = json_decode(json_encode($vendorDetails), true);
         // dd($vendorDetails);
         return view('admin.admins.show_vendor', compact('vendorDetails'));
     }
