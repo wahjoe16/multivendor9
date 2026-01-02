@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email Confirmation</title>
+</head>
+<body>
+    <tr><td>Dear {{ $name }},</td></tr>
+    <tr><td>&nbsp;<br></td></tr>
+    <tr><td>Your vendor account has been approved successfully. Now you can login and add your products.</td></tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr><td>Your vendor account details are as below:</td></tr>
+    <tr><td>&nbsp;<br>
+    <tr><td>Name: {{ $name }}</td></tr>
+    <tr><td>&nbsp;<br></td></tr>
+    <tr><td>Email: {{ $email }}</td></tr>
+    <tr><td>&nbsp;<br></td></tr>
+    <tr><td>Mobile: {{ $mobile }}</td></tr>
+    <tr><td>&nbsp;<br></td></tr>
+    <tr><td>Password: ****** (as chosen by you)</td></tr>
+    <tr><td>&nbsp;<br></td></tr>
+    <tr><td>Best regards,</td></tr>
+    <tr><td>&nbsp;<br></td></tr>
+    <tr><td>{{ env('APP_NAME') }} Team</td></tr>
+</body>
+</html>

@@ -21,7 +21,33 @@ class ProductController extends Controller
     public function viewProducts()
     {
         // Logic to retrieve and display products
-        $data = Product::with(['section', 'category', 'brand', 'vendor', 'admin'])->get();
+        $adminType = Auth::guard('admin')->user()->type;
+        $vendor_id = Auth::guard('admin')->user()->vendor_id;
+        if ($adminType == "Vendor") {
+            $vendorStatus = Auth::guard('admin')->user()->status;
+            if ($vendorStatus == 0) {
+                return redirect()->route('settings.admin')->with('error_message', 'Your vendor account is not approved yet! Please wait for admin approval.');
+            } 
+        }
+
+        $data = Product::with([
+            'section' => function ($query) {
+                $query->select('id', 'name');
+            },
+            'category' => function ($query) {
+                $query->select('id', 'category_name');
+            },
+            'brand', 
+            'vendor', 
+            'admin']);
+
+        if ($adminType == "Vendor") {
+            $data = $data->where('vendor_id', $vendor_id);
+        }
+
+        $data = $data->get()->toArray();
+
+        
         return view('admin.products.view_products', compact('data'));
     }
 

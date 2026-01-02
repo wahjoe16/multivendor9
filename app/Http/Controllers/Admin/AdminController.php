@@ -10,6 +10,7 @@ use App\Models\VendorsBusinessDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -206,85 +207,69 @@ class AdminController extends Controller
 
     public function updateVendorBusiness(Request $request)
     {
-        $dataVendorBusiness = VendorsBusinessDetail::where('id', Auth::guard('admin')->user()->vendor_id)->first();
+        $vendorId = Auth::guard('admin')->user()->vendor_id;
 
-        if ($request->isMethod('post')) {
-            $this->validate($request, [
-                'shop_name'=>'required|regex:/^[\pL\s\-]+$/u|max:255',
-                'shop_address'=>'required',
-                'shop_city'=>'required|regex:/^[\pL\s\-]+$/u|max:255',
-                'shop_state'=>'required|regex:/^[\pL\s\-]+$/u|max:255',
-                'shop_country'=>'required|regex:/^[\pL\s\-]+$/u|max:255',
-                'shop_pincode'=>'required|numeric',
-                'shop_mobile'=>'required',
-                'shop_email'=>'required|email|max:255',
-                'shop_website'=>'nullable|url',
-                'address_proof'=>'required',
-                'address_proof_image'=>'mimes:JPG,jpeg,jpg,png,gif',
-                'business_license_number'=>'required',
-                'gst_number'=>'required',
-                'pan_number'=>'required',
-            ], [
-                'shop_name.required'=>'Shop Name is required',
-                'shop_name.regex'=>'Valid Shop Name is required',
-                'shop_address.required'=>'Shop Address is required',
-                'shop_city.required'=>'Shop City is required',
-                'shop_city.regex'=>'Valid Shop City is required',
-                'shop_state.required'=>'Shop State is required',
-                'shop_state.regex'=>'Valid Shop State is required',
-                'shop_country.required'=>'Shop Country is required',
-                'shop_country.regex'=>'Valid Shop Country is required',
-                'shop_pincode.required'=>'Shop Pincode is required',
-                'shop_pincode.numeric'=>'Valid Shop Pincode is required',
-                'shop_mobile.required'=>'Shop Mobile is required',
-                'shop_email.required'=>'Shop Email is required',
-                'shop_email.email'=>'Valid Shop Email is required',
-                'shop_website.url'=>'Valid Shop Website is required',
-                'address_proof.required'=>'Address Proof is required',
-                'address_proof_image.mimes'=>'Valid Address Proof Image is required (jpeg, jpg, png, gif)',
-                'business_license_number.required'=>'Business License Number is required',
-                'gst_number.required'=>'GST Number is required',
-                'pan_number.required'=>'PAN Number is required',
-            ]);
+        $dataVendorBusiness = VendorsBusinessDetail::where('vendor_id', $vendorId)->first();
 
-            // upload address proof image
-            if ($request->hasFile('address_proof_image')) {
-                $file = $request->file('address_proof_image');
-                if (!is_null($file)) {
-                    File::delete(public_path('/vendor/photo/'. $dataVendorBusiness->address_proof_image));
-                    $imageName = 'address_proof_' . date('Y-m-dHis') . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('/vendor/photo'), $imageName);
-                }
-            } elseif (!empty($request['current_image'])) {
-                $imageName = $request['current_image'];
-            } else {
-                $imageName = "";
+        $request->validate([
+            'shop_name' => 'required|regex:/^[\pL\pN\s\.\-]+$/u|max:255',
+            'shop_address' => 'required',
+            'shop_city' => 'required|max:255',
+            'shop_state' => 'required|max:255',
+            'shop_country' => 'required|max:255',
+            'shop_pincode' => 'required|numeric',
+            'shop_mobile' => 'required',
+            'shop_email' => 'required|email|max:255',
+            'shop_website' => 'nullable|url',
+            'address_proof' => 'required',
+            'address_proof_image' => 'nullable|mimes:jpg,jpeg,png,gif',
+            'business_license_number' => 'required',
+            'gst_number' => 'required',
+            'pan_number' => 'required',
+        ]);
+
+        // upload image
+        if ($request->hasFile('address_proof_image')) {
+
+            if ($dataVendorBusiness && $dataVendorBusiness->address_proof_image) {
+                File::delete(public_path('vendor/photo/' . $dataVendorBusiness->address_proof_image));
             }
 
-            // update vendor business details to vendors_business_details table
-            \App\Models\VendorsBusinessDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([
-                'shop_name'=>$request->shop_name,
-                'shop_address'=>$request->shop_address,
-                'shop_city'=>$request->shop_city,
-                'shop_state'=>$request->shop_state,
-                'shop_country'=>$request->shop_country,
-                'shop_pincode'=>$request->shop_pincode,
-                'shop_mobile'=>$request->shop_mobile,
-                'shop_email'=>$request->shop_email,
-                'shop_website'=>$request->shop_website,
-                'address_proof'=>$request->address_proof,
-                'address_proof_image'=>$imageName,
-                'business_license_number'=>$request->business_license_number,
-                'gst_number'=>$request->gst_number,
-                'pan_number'=>$request->pan_number,
-            ]);
+            $file = $request->file('address_proof_image');
+            $imageName = 'address_proof_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('vendor/photo'), $imageName);
 
-            return redirect()->back()->with('success_message', 'Vendor Business details updated successfully');
+        } else {
+            $imageName = $dataVendorBusiness->address_proof_image ?? null;
         }
+
+        VendorsBusinessDetail::updateOrCreate(
+            ['vendor_id' => $vendorId],
+            [
+                'shop_name' => $request->shop_name,
+                'shop_address' => $request->shop_address,
+                'shop_city' => $request->shop_city,
+                'shop_state' => $request->shop_state,
+                'shop_country' => $request->shop_country,
+                'shop_pincode' => $request->shop_pincode,
+                'shop_mobile' => $request->shop_mobile,
+                'shop_email' => $request->shop_email,
+                'shop_website' => $request->shop_website,
+                'address_proof' => $request->address_proof,
+                'address_proof_image' => $imageName,
+                'business_license_number' => $request->business_license_number,
+                'gst_number' => $request->gst_number,
+                'pan_number' => $request->pan_number,
+            ]
+        );
+
+        return back()->with('success_message', 'Vendor Business details updated successfully');
     }
+
 
     public function updateVendorBank(Request $request)
     {
+        $vendorId = Auth::guard('admin')->user()->vendor_id;
         
         if ($request->isMethod('post')) {
             $this->validate($request, [
@@ -304,7 +289,8 @@ class AdminController extends Controller
             ]);
 
             // update vendor bank details to vendors_bank_details table
-            \App\Models\VendorsBankDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([
+            VendorsBankDetail::updateOrCreate([
+                'vendor_id' => $vendorId,
                 'account_holder_name'=>$request->account_holder_name,
                 'bank_name'=>$request->bank_name,
                 'account_number'=>$request->account_number,
@@ -353,6 +339,22 @@ class AdminController extends Controller
             }
 
             Admin::where('id', $data['admin_id'])->update(['status'=>$status]);
+
+            $adminDetails = Admin::where('id', $data['admin_id'])->first()->toArray();
+            if ($adminDetails['type'] == "Vendor" && $status == 1) {
+                // send confirmation email to vendor
+                $email = $adminDetails['email'];
+                $name = $adminDetails['name'];
+                $messageData = [
+                    'email'=>$email,
+                    'name'=>$name,
+                    'mobile'=>$adminDetails['mobile'],
+                ];
+                Mail::send('front.emails.vendor_approved', $messageData, function ($message) use ($email) {
+                    $message->to($email)->subject('Your Vendor Account Approved');
+                });
+            }
+
             return response()->json([
                 'status'=>$status,
                 'admin_id'=>$data['admin_id']   

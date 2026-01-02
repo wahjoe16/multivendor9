@@ -70,7 +70,11 @@
         </li>
         <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-            <img src="{{ asset('/admin/images/faces/face28.jpg') }}" alt="profile"/>
+                @if (!empty(Auth::guard('admin')->user()->image))
+                    <img src="{{ asset('/user/photo/' . Auth::guard('admin')->user()->image) }}" alt="">
+                @else
+                    <img src="{{ asset('/admin/images/faces/face28.jpg') }}" alt="profile"/>
+                @endif
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
             <a href="{{ route('settings.admin') }}" class="dropdown-item">

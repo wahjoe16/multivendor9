@@ -74,60 +74,63 @@
                 <form class="forms-sample" method="POST" action="{{ route('update.vendor.business') }}" enctype="multipart/form-data">@csrf
                     <div class="form-group">
                         <label for="shop_name">Shop Name</label>
-                        <input type="text" class="form-control" id="shop_name" name="shop_name" placeholder="Shop Name" value="{{ $dataVendorBusiness['shop_name'] }}">
+                        <input type="text" class="form-control" id="shop_name" name="shop_name" placeholder="Shop Name" value="{{ old('shop_name', optional($dataVendorBusiness)->shop_name) }}">
                     </div>
                     <div class="form-group">
                         <label for="shop_address">Shop Address</label>
-                        <input type="text" class="form-control" id="shop_address" name="shop_address" placeholder="Shop Address" value="{{ $dataVendorBusiness['shop_address'] }}">
+                        <input type="text" class="form-control" id="shop_address" name="shop_address" placeholder="Shop Address" value="{{ old('shop_address', optional($dataVendorBusiness)->shop_address) }}">
                     </div>
                     <div class="form-group">
                         <label for="shop_city">Shop City</label>
-                        <input type="text" class="form-control" id="shop_city" name="shop_city" placeholder="Shop City" value="{{ $dataVendorBusiness['shop_city'] }}">
+                        <input type="text" class="form-control" id="shop_city" name="shop_city" placeholder="Shop City" value="{{ old('shop_city', optional($dataVendorBusiness)->shop_city) }}">
                     </div>
                     <div class="form-group">
                         <label for="shop_state">Shop State</label>
-                        <input type="text" class="form-control" id="shop_state" name="shop_state" placeholder="Shop State" value="{{ $dataVendorBusiness['shop_state'] }}">
+                        <input type="text" class="form-control" id="shop_state" name="shop_state" placeholder="Shop State" value="{{ old('shop_state', optional($dataVendorBusiness)->shop_state) }}">
                     </div>
                     <div class="form-group">
                         <label for="shop_country">Shop Country</label>
                         <select name="shop_country" id="shop_country" class="form-control">
                             <option value="">Select Country</option>
                             @foreach ($countries as $country)
-                                <option value="{{ $country->country_name }}" @if ($country['country_name'] == $dataVendorBusiness['shop_country']) selected @endif>{{ $country->country_name }}</option>
+                                <option value="{{ $country->country_name }}"
+                                    {{ (!empty($country->country_name) && $country->country_name == ($dataVendorBusiness['shop_country'] ?? null)) ? 'selected' : '' }}>
+                                    {{ $country->country_name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="shop_pincode">Shop Pincode</label>
-                        <input type="text" class="form-control" id="shop_pincode" name="shop_pincode" placeholder="Shop Pincode" value="{{ $dataVendorBusiness['shop_pincode'] }}">
+                        <input type="text" class="form-control" id="shop_pincode" name="shop_pincode" placeholder="Shop Pincode" value="{{ old('shop_pincode', optional($dataVendorBusiness)->shop_pincode) }}">
                     </div>
                     <div class="form-group">
                         <label for="shop_mobile">Shop Mobile</label>
-                        <input type="text" class="form-control" id="shop_mobile" name="shop_mobile" placeholder="Shop Mobile" value="{{ $dataVendorBusiness['shop_mobile'] }}">
+                        <input type="text" class="form-control" id="shop_mobile" name="shop_mobile" placeholder="Shop Mobile" value="{{ old('shop_mobile', optional($dataVendorBusiness)->shop_mobile) }}">
                     </div>
                     <div class="form-group">
                         <label for="shop_website">Shop Website</label>
-                        <input type="text" class="form-control" id="shop_website" name="shop_website" placeholder="Shop Website" value="{{ $dataVendorBusiness['shop_website'] }}">
+                        <input type="text" class="form-control" id="shop_website" name="shop_website" placeholder="Shop Website" value="{{ old('shop_website', optional($dataVendorBusiness)->shop_website) }}">
                     </div>
                     <div class="form-group">
                         <label for="shop_email">Shop Email</label>
-                        <input type="email" class="form-control" id="shop_email" name="shop_email" placeholder="Shop Email" value="{{ $dataVendorBusiness['shop_email'] }}">
+                        <input type="email" class="form-control" id="shop_email" name="shop_email" placeholder="Shop Email" value="{{ old('shop_email', optional($dataVendorBusiness)->shop_email) }}">
                     </div>
                     <div class="form-group">
                         <label for="address_proof">Address Proof</label>
-                        <input type="text" class="form-control" id="address_proof" name="address_proof" placeholder="Address Proof" value="{{ $dataVendorBusiness['address_proof'] }}">
+                        <input type="text" class="form-control" id="address_proof" name="address_proof" placeholder="Address Proof" value="{{ old('address_proof', optional($dataVendorBusiness)->address_proof) }}">
                     </div>
                     <div class="form-group">
                         <label for="business_license_number">Business License Number</label>
-                        <input type="text" class="form-control" id="business_license_number" name="business_license_number" placeholder="Business License Number" value="{{ $dataVendorBusiness['business_license_number'] }}">
+                        <input type="text" class="form-control" id="business_license_number" name="business_license_number" placeholder="Business License Number" value="{{ old('business_license_number', optional($dataVendorBusiness)->business_license_number) }}">
                     </div>
                     <div class="form-group">
                         <label for="gst_number">GST Number</label>
-                        <input type="text" class="form-control" id="gst_number" name="gst_number" placeholder="GST Number" value="{{ $dataVendorBusiness['gst_number'] }}">
+                        <input type="text" class="form-control" id="gst_number" name="gst_number" placeholder="GST Number" value="{{ old('gst_number', optional($dataVendorBusiness)->gst_number) }}">
                     </div>
                     <div class="form-group">
                         <label for="pan_number">PAN Number</label>
-                        <input type="text" class="form-control" id="pan_number" name="pan_number" placeholder="PAN Number" value="{{ $dataVendorBusiness['pan_number'] }}">
+                        <input type="text" class="form-control" id="pan_number" name="pan_number" placeholder="PAN Number" value="{{ old('pan_number', optional($dataVendorBusiness)->pan_number) }}">
                     </div>
                     <div class="form-group">
                         <label for="address_proof_image">Address proof image</label>
@@ -147,23 +150,23 @@
     <div class="col-md-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Update Vendor Business Detail</h4>
+                <h4 class="card-title">Update Vendor Bank Detail</h4>
                 <form class="forms-sample" method="POST" action="{{ route('update.vendor.bank') }}" enctype="multipart/form-data">@csrf
                     <div class="form-group">
                         <label for="account_holder_name">Account Holder Name</label>
-                        <input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Account Holder Name" value="{{ $dataVendorBank['account_holder_name'] }}">
+                        <input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Account Holder Name" value="{{ old('account_holder_name', $dataVendorBank->account_holder_name ?? '') }}">
                     </div>
                     <div class="form-group">
                         <label for="bank_name">Bank Name</label>
-                        <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Bank Name" value="{{ $dataVendorBank['bank_name'] }}">
+                        <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Bank Name" value="{{ old('bank_name', $dataVendorBank->bank_name ?? '') }}">
                     </div>
                     <div class="form-group">
                         <label for="account_number">Account Number</label>
-                        <input type="text" class="form-control" id="account_number" name="account_number" placeholder="Account Number" value="{{ $dataVendorBank['account_number'] }}">
+                        <input type="text" class="form-control" id="account_number" name="account_number" placeholder="Account Number" value="{{ old('account_number', $dataVendorBank->account_number ?? '') }}">
                     </div>
                     <div class="form-group">
                         <label for="bank_ifsc_code">Bank IFSC Code</label>
-                        <input type="text" class="form-control" id="bank_ifsc_code" name="bank_ifsc_code" placeholder="Bank IFSC Code" value="{{ $dataVendorBank['bank_ifsc_code'] }}">
+                        <input type="text" class="form-control" id="bank_ifsc_code" name="bank_ifsc_code" placeholder="Bank IFSC Code" value="{{ old('bank_ifsc_code', $dataVendorBank->bank_ifsc_code ?? '') }}">
                     </div>
                     
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>

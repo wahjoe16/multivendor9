@@ -25,14 +25,14 @@
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Vendor
                         Sign In</span></h5>
                 <div class="bg-light p-30 mb-5">
-                    <form action="{{ route('vendor.login') }}" method="POST">@csrf
+                    <form action="{{ route('login.admin') }}" method="POST">@csrf
                         <div class="form-group">
-                            <label class="mb-2" for="loginEmail">Username or Email</label>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="Enter Username or Email">
+                            <label class="mb-2" for="email">Email</label>
+                            <input type="email" name="email" class="form-control" id="email" placeholder="Enter Email">
                         </div>
                         <div class="form-group">
-                            <label class="mb-2" for="loginPassword">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" placeholder="Enter Password">
+                            <label class="mb-2" for="password">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Enter Password">
                         </div>
                         <div>
                             <button class="btn btn-primary btn-block py-2 px-4" type="submit" id="sendMessageButton">Sign In</button>

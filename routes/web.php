@@ -83,8 +83,8 @@ Route::group(['prefix'=>'/admin'], function () {
         Route::get('/personal-business-bank-settings', function () {
             $dataAdmin = Admin::where('id', Auth::guard('admin')->user()->id)->first();
             $dataVendor = Vendor::where('id', Auth::guard('admin')->user()->vendor_id)->first();
-            $dataVendorBusiness = VendorsBusinessDetail::where('id', Auth::guard('admin')->user()->vendor_id)->first();
-            $dataVendorBank = VendorsBankDetail::where('id', Auth::guard('admin')->user()->vendor_id)->first();
+            $dataVendorBusiness = VendorsBusinessDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->first();
+            $dataVendorBank = VendorsBankDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->first();
             $countries = Country::where('status', 1)->get();
             // dd($dataVendor);
             return view('admin.business_bank_details', compact('dataAdmin', 'dataVendor', 'dataVendorBusiness', 'dataVendorBank', 'countries'));
