@@ -148,4 +148,15 @@ class ProductController extends Controller
         }
         
     }
+
+    public function detail($id)
+    {
+        $data = Product::with([
+            'attributes', 'images', 'section', 'category', 'brand', 'vendor'
+        ])->findOrFail($id);
+
+        // $categoryDetails = Category::categoryDetails($data['category']['url'] ?? null);
+        // dd($categoryDetails);
+        return view('front.products.detail', compact('data'));
+    }
 }

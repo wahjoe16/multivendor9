@@ -44,6 +44,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
         Route::match(['get', 'post'], '/'.$url, [FrontProductController::class, 'listing'])->name('front.category.products');
     }
 
+    Route::get('/product/{id}', [FrontProductController::class, 'detail'])->name('product.detail');
+
     Route::get('/vendor/login-register', [VendorController::class, 'loginRegister'])->name('vendor.login.register');
     Route::post('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
     Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');

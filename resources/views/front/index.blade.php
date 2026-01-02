@@ -137,11 +137,11 @@
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="{{ route('product.detail', $dp['id']) }}"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">{{ $dp['product_name'] }}</a>
+                            <a class="h6 text-decoration-none text-truncate" href="{{ route('product.detail', $dp['id']) }}">{{ $dp['product_name'] }}</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
                                 <?php
                                     $discountedPrice = Product::getDiscountPrice($dp['id']);
@@ -219,11 +219,11 @@
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="{{ route('product.detail', $rp['id']) }}"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">{{ $rp['product_name'] }}</a>
+                            <a class="h6 text-decoration-none text-truncate" href="{{ route('product.detail', $rp['id']) }}">{{ $rp['product_name'] }}</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
                                 <?php
                                     $discountedPrice = Product::getDiscountPrice($rp['id']);
