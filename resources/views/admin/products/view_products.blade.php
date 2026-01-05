@@ -25,40 +25,40 @@
                         <tbody>
                             @foreach ($data as $product)
                             <tr>
-                                <td>{{ $product->product_name }}</td>
-                                <td>{{ $product->product_code }}</td>
-                                <td>{{ $product->category->category_name }}</td>
+                                <td>{{ $product['product_name'] }}</td>
+                                <td>{{ $product['product_code'] }}</td>
+                                <td>{{ $product['category']['category_name'] }}</td>
                                 <td>
-                                    @if (!empty($product->product_image))
-                                        <img src="{{ asset('/images/product_images/' . $product->product_image) }}" alt="{{ $product->product_name }}" style="width: 50px;">
+                                    @if (!empty($product['product_image']))
+                                        <img src="{{ asset('/images/product_images/' . $product['product_image']) }}" alt="{{ $product['product_name'] }}" style="width: 50px;">
                                     @else
                                         No Image
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($product->admin_type == "Vendor")
-                                        <a href="{{ route('vendor.product.show', $product['vendor_id']) }}">{{ ucfirst($product->vendor->name) }}</a>
+                                    @if ($product['admin_type'] == "Vendor")
+                                        <a href="{{ route('vendor.product.show', $product['vendor_id']) }}">{{ ucfirst($product['vendor']['name']) }}</a>
                                     @else
-                                        {{ ucfirst($product->admin_type) }}
+                                        {{ ucfirst($product['admin_type']) }}
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($product->status == 1)
-                                        <a class="updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}" href="javascript:void(0)">
+                                    @if ($product['status'] == 1)
+                                        <a class="updateProductStatus" id="product-{{ $product['id'] }}" product_id="{{ $product['id'] }}" href="javascript:void(0)">
                                             <i class="mdi mdi-bookmark-check" style="font-size: 25px;" title="Active" status="Active"></i>
                                         </a>
                                     @else
-                                        <a class="updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}" href="javascript:void(0)">
+                                        <a class="updateProductStatus" id="product-{{ $product['id'] }}" product_id="{{ $product['id'] }}" href="javascript:void(0)">
                                             <i class="mdi mdi-bookmark-outline" style="font-size: 25px;" title="Inactive" status="Inactive"></i>
                                         </a>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('product.show', ['id' => $product->id]) }}" title="Show Product"><i class="mdi mdi-eye" style="font-size: 25px;"></i></a>
-                                    <a href="{{ route('attributesProduct.add', ['id' => $product->id]) }}" title="Add Attributes"><i class="mdi mdi-plus-box" style="font-size: 25px;"></i></a>
-                                    <a href="{{ route('imagesProduct.add', ['id' => $product->id]) }}" title="Add Images"><i class="mdi mdi-library-plus" style="font-size: 25px;"></i></a>
-                                    <a href="{{ route('create.edit.product', ['id' => $product->id]) }}" title="Edit Product"><i class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
-                                    <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product->id }}" title="Delete Product"><i class="mdi mdi-file-excel-box" style="font-size: 25px;"></i></a>
+                                    <a href="{{ route('product.show', ['id' => $product['id']]) }}" title="Show Product"><i class="mdi mdi-eye" style="font-size: 25px;"></i></a>
+                                    <a href="{{ route('attributesProduct.add', ['id' => $product['id']]) }}" title="Add Attributes"><i class="mdi mdi-plus-box" style="font-size: 25px;"></i></a>
+                                    <a href="{{ route('imagesProduct.add', ['id' => $product['id']]) }}" title="Add Images"><i class="mdi mdi-library-plus" style="font-size: 25px;"></i></a>
+                                    <a href="{{ route('create.edit.product', ['id' => $product['id']]) }}" title="Edit Product"><i class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
+                                    <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}" title="Delete Product"><i class="mdi mdi-file-excel-box" style="font-size: 25px;"></i></a>
                                 </td>
                             </tr>
                             @endforeach

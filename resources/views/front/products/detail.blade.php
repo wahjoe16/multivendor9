@@ -62,22 +62,24 @@
                     <?php
                         $getDiscount = Product::getDiscountPrice($data->id)
                     ?>
-                    @if ($getDiscount > 0)
-                        <h3 class="font-weight-semi-bold mb-4">${{ $getDiscount }}</h3><h4 class="text-muted ml-2"><del>${{ $data->product_price }}</del></h4>
-                    @else
-                        <h3 class="font-weight-semi-bold mb-4">${{ $data->product_price }}</h3>
-                    @endif
+                    <span class="getAttributePrice">
+                        @if ($getDiscount > 0)
+                            <h3 class="font-weight-semi-bold mb-4">${{ $getDiscount }}</h3><h4 class="text-muted ml-2"><del>${{ $data->product_price }}</del></h4>
+                        @else
+                            <h3 class="font-weight-semi-bold mb-4">${{ $data->product_price }}</h3>
+                        @endif
+                    </span>
                     
                     <p class="mb-4">{{ $data->description }}</p>
                     <div class="d-flex mb-3">
                         <strong class="text-dark mr-3">Sizes:</strong>
                         <form>
-                            @foreach ($data->attributes as $attribute)
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-1" name="size">
-                                    <label class="custom-control-label" for="size-1">{{ $attribute->size }}</label>
-                                </div>
-                            @endforeach
+                            <select name="size" id="getPrice" product-id="{{ $data->id }}" class="form-control">
+                                <option value="">Select Size</option>
+                                @foreach ($data->attributes as $attribute)
+                                    <option value="{{ $attribute->size }}">{{ $attribute->size }}</option>
+                                @endforeach
+                            </select>
                         </form>
                     </div>
                     <div class="d-flex mb-3">
@@ -120,17 +122,9 @@
                     </div>
                     <div class="d-flex align-items-center mb-4 pt-2">
                         <div class="input-group quantity mr-3" style="width: 130px;">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
+                            
+                            <input type="number" class="form-control bg-secondary border-0 text-center" value="1">
+                            
                         </div>
                         <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
                             Cart</button>
@@ -160,7 +154,7 @@
                 <div class="bg-light p-30">
                     <div class="nav nav-tabs mb-4">
                         <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Information</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Product Video</a>
                         <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
                     </div>
                     <div class="tab-content">
@@ -169,42 +163,9 @@
                             <p>{{ $data->description }}</p>
                         </div>
                         <div class="tab-pane fade" id="tab-pane-2">
-                            <h4 class="mb-3">Additional Information</h4>
-                            <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item px-0">
-                                            Sit erat duo lorem duo ea consetetur, et eirmod takimata.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Amet kasd gubergren sit sanctus et lorem eos sadipscing at.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Duo amet accusam eirmod nonumy stet et et stet eirmod.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
-                                        </li>
-                                      </ul> 
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item px-0">
-                                            Sit erat duo lorem duo ea consetetur, et eirmod takimata.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Amet kasd gubergren sit sanctus et lorem eos sadipscing at.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Duo amet accusam eirmod nonumy stet et et stet eirmod.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
-                                        </li>
-                                      </ul> 
-                                </div>
-                            </div>
+                            <video width="850" controls>
+                                <source src="{{ asset('/videos/product_videos/' . $data->product_video) }}" type="video/mp4">
+                            </video>
                         </div>
                         <div class="tab-pane fade" id="tab-pane-3">
                             <div class="row">
@@ -266,3 +227,32 @@
     <!-- Shop Detail End -->
 
 @endsection
+
+@push('bottom_scripts')
+    <script>
+        $(document).ready(function() {
+            $('#getPrice').change(function() {
+                var size = $(this).val();
+                var product_id = $(this).attr('product-id');
+                // alert(size);
+                $.ajax({
+                    url: "{{ route('get.product.price') }}",
+                    data: {
+                        size:size, product_id:product_id, _token:'{{ csrf_token() }}'
+                    },
+                    type: 'post',
+                    success: function(resp) {
+                        // alert(resp['final_price']);
+                        if (resp['discount'] > 0) {
+                            $('.getAttributePrice').html("<h3 class='font-weight-semi-bold mb-4'>$"+resp['final_price']+"</h3><h4 class='text-muted ml-2'><del>$"+resp['product_price']+"</del></h4>")
+                        } else {
+                            $('.getAttributePrice').html("<h3 class='font-weight-semi-bold mb-4'>$"+resp['final_price']+"</h3>")
+                        }
+                    }, error: function() {
+                        alert('Error');
+                    }
+                })
+            })
+        })
+    </script>
+@endpush

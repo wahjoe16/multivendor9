@@ -105,4 +105,27 @@ class Product extends Model
     //     $qtyProduct = Product::with('getCategories')->where(['category_id' => $category_id, 'status' => 1])->count();
     //     return $qtyProduct;
     // }
+
+    // fungsi static untuk mendapatkan harga produk dari table product_attribute
+    public static function getDiscountAttributePrice($product_id, $size)
+    {
+        $proAttrPrice = ProductAttribute::where(['product_id' => $product_id, 'size' => $size])->first()->toArray();
+
+        $proDetails = Product::select('product_discount', 'category_id')->where('id', $product_id)->first();
+
+        $catDetails = Category::select('category_discount')->where('id', $proDetails['category_id'])->first();
+
+        if ($proDetails['product_discount'] > 0) {
+            $finalPrice = $proAttrPrice['price'] - ($proAttrPrice['price'] * $proDetails['product_discount'] / 100); 
+            $discount = $proAttrPrice['price'] - $finalPrice;
+        } elseif ($catDetails['category_discount'] > 0) {
+            $finalPrice = $proAttrPrice['price'] - ($proAttrPrice['price'] * $catDetails['category_discount'] / 100); 
+            $discount = $proAttrPrice['price'] - $finalPrice;
+        } else {
+            $finalPrice = $proAttrPrice['price'];
+            $discount = 0;
+        }
+
+        return array('product_price' => $proAttrPrice['price'], 'final_price' => $finalPrice, 'discount' => $discount);
+    }
 }

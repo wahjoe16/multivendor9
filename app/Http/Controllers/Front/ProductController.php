@@ -152,11 +152,29 @@ class ProductController extends Controller
     public function detail($id)
     {
         $data = Product::with([
-            'attributes', 'images', 'section', 'category', 'brand', 'vendor'
+            'attributes' => function($query) {
+                $query->where('stock', '>', 0)->where('status', 1);
+            }, 
+            'images', 
+            'section', 
+            'category', 
+            'brand', 
+            'vendor'
         ])->findOrFail($id);
 
         // $categoryDetails = Category::categoryDetails($data['category']['url'] ?? null);
         // dd($categoryDetails);
         return view('front.products.detail', compact('data'));
+    }
+
+    public function getProductPrice(Request $request) 
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+
+            $getDiscountProduct = Product::getDiscountAttributePrice($data['product_id'], $data['size']);
+            return $getDiscountProduct;
+        }
     }
 }

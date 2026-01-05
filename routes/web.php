@@ -44,7 +44,11 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
         Route::match(['get', 'post'], '/'.$url, [FrontProductController::class, 'listing'])->name('front.category.products');
     }
 
+    // Route untk menampilkan detail produk pada frontend
     Route::get('/product/{id}', [FrontProductController::class, 'detail'])->name('product.detail');
+
+    // Route untuk mendapatkan harga product berdasarkan size yang dipilih
+    Route::post('/get-product-price', [FrontProductController::class, 'getProductPrice'])->name('get.product.price');
 
     Route::get('/vendor/login-register', [VendorController::class, 'loginRegister'])->name('vendor.login.register');
     Route::post('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
