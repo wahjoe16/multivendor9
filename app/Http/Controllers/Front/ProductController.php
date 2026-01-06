@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductsFilter;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -176,5 +177,20 @@ class ProductController extends Controller
             $getDiscountProduct = Product::getDiscountAttributePrice($data['product_id'], $data['size']);
             return $getDiscountProduct;
         }
+    }
+
+    public function vendorProductListing($vendor_id)
+    {
+        // get vendor shop name
+        $getVendorShop = Vendor::getVendorShop($vendor_id);
+
+        // get vendor product
+        $getVendorProducts = Product::with('brand')->where('vendor_id', $vendor_id)->where('status', 1);
+
+        $getVendorProducts = $getVendorProducts->paginate(20);
+        // dd($getvendorProducts);
+
+        return view('front.products.vendor_listing', compact('getVendorShop', 'getVendorProducts'));
+
     }
 }

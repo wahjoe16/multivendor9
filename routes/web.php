@@ -55,6 +55,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
     Route::get('/vendor/confirmation/{code}', [VendorController::class, 'vendorConfirmation'])->name('vendor.confirmation');
+
+    // route untuk halaman product pada setiap vendor
+    Route::get('/products/{vendor_id}/', [FrontProductController::class, 'vendorProductListing'])->name('vendor.product.listing');
 });
 
 

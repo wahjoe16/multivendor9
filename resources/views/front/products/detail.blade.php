@@ -65,7 +65,7 @@
                     <div class="d-flex mb-3">
                         <div class="text-primary mr-2">
                             @if (isset($data['vendor']))
-                                <h5>{{ $data['vendor']['vendorsBusinessDetail']['shop_name'] }}</h5>
+                                <a href="{{ route('vendor.product.listing', $data['vendor']['id']) }}"><h5>{{ $data['vendor']['vendorsBusinessDetail']['shop_name'] }}</h5></a>
                             @endif
                         </div>
                     </div>

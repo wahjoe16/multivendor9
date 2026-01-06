@@ -13,4 +13,10 @@ class Vendor extends Model
     {
         return $this->belongsTo(VendorsBusinessDetail::class, 'id', 'vendor_id');
     }
+
+    public static function getVendorShop($vendor_id)
+    {
+        $getVendorShop = VendorsBusinessDetail::select('shop_name')->where('vendor_id', $vendor_id)->first()->toArray();
+        return $getVendorShop['shop_name'];
+    }
 }
