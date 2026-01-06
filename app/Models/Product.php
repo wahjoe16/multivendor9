@@ -26,7 +26,7 @@ class Product extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(Vendor::class, 'vendor_id')->select('id', 'name');
+        return $this->belongsTo(Vendor::class, 'vendor_id')->select('id', 'name')->with('vendorsBusinessDetail');
     }
 
     public function admin()

@@ -1,6 +1,9 @@
 <?php
     use App\Models\Product;
-    use App\Models\Category;
+    use App\Models\ProductsFilter;
+
+    $productFilter = ProductsFilter::productFilters();
+    // dd($productFilter);
 ?>
 
 @extends('front.layout.layout')
@@ -58,6 +61,13 @@
                             <small class="far fa-star"></small>
                         </div>
                         <small class="pt-1">(99 Reviews)</small>
+                    </div>
+                    <div class="d-flex mb-3">
+                        <div class="text-primary mr-2">
+                            @if (isset($data['vendor']))
+                                <h5>{{ $data['vendor']['vendorsBusinessDetail']['shop_name'] }}</h5>
+                            @endif
+                        </div>
                     </div>
                     <?php
                         $getDiscount = Product::getDiscountPrice($data->id)
@@ -154,8 +164,9 @@
                 <div class="bg-light p-30">
                     <div class="nav nav-tabs mb-4">
                         <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Product Video</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Specifications</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Product Video</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-4">Reviews (0)</a>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab-pane-1">
@@ -163,11 +174,34 @@
                             <p>{{ $data->description }}</p>
                         </div>
                         <div class="tab-pane fade" id="tab-pane-2">
+                            <table>
+                                @foreach ($productFilter as $filter)
+                                    @if (isset($data['category_id']))
+                                        <?php
+                                            $filterAvailable = ProductsFilter::filterAvailable($filter['id'], $data['category_id']);
+                                        ?>
+                                        @if ($filterAvailable == "Yes")
+                                            <tr class="list-group-item px-0">
+                                                <td>{{ $filter['filter_name'] }}</td>
+                                                <td>
+                                                    @foreach ($filter['filter_values'] as $value)
+                                                        @if (!empty($data[$filter['filter_column']]) && $value['filter_value'] == $data[$filter['filter_column']])
+                                                            <strong>{{ ucwords($value['filter_value']) }}</strong>
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-3">
                             <video width="850" controls>
                                 <source src="{{ asset('/videos/product_videos/' . $data->product_video) }}" type="video/mp4">
                             </video>
                         </div>
-                        <div class="tab-pane fade" id="tab-pane-3">
+                        <div class="tab-pane fade" id="tab-pane-4">
                             <div class="row">
                                 <div class="col-md-6">
                                     <h4 class="mb-4">1 review for "Product Name"</h4>
