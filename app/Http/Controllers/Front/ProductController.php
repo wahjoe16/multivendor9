@@ -163,9 +163,27 @@ class ProductController extends Controller
             'vendor'
         ])->findOrFail($id);
 
+        // dd($data);
+        
+        // 
+        // $categoryDetails = Category::categoryDetails($data['category']['url']);
+        // dd($categoryDetails);
+
+        // get similiar products
+        $similiarProducts = Product::with('brand')
+                            ->where('category_id', $data['category']['id'])
+                            ->where('id', '!=', $id)
+                            ->limit(6)
+                            ->inRandomOrder()
+                            ->get()
+                            ->toArray();
+        // dd($similiarProducts);
+
+        $totalStock = ProductAttribute::where('product_id', $id)->sum('stock');
+
         // $categoryDetails = Category::categoryDetails($data['category']['url'] ?? null);
         // dd($categoryDetails);
-        return view('front.products.detail', compact('data'));
+        return view('front.products.detail', compact('data', 'similiarProducts', 'totalStock'));
     }
 
     public function getProductPrice(Request $request) 
